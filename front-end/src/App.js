@@ -1,22 +1,47 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from "react";
+// import logo from './logo.svg';
 import './App.css';
+import apiService from "./ApiService";
 
 function App() {
+
+  const [createLinkLoading, setCreateLinkLoading] = useState(false)
+  const [clientLink, setClientLink] = useState('');
+  const [createdLink, setCreatedLink] = useState('')
+
+  const handlerLinkOnChange = (e) => {
+    setClientLink(e.target.value)
+  }
+
+  const handlerCreateOnClick = () => {
+    if (clientLink) {
+      setCreateLinkLoading(true)
+      apiService.createShortLink("LINK", clientLink).then((req) => {
+        if (req.data) {
+          console.log("link created", req.data)
+          setCreatedLink(req.data)
+          setCreateLinkLoading(false)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    console.log("Loading, ok")
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div>
+          <div>
+            <input defaultValue={clientLink} onChange={handlerLinkOnChange} />
+            <button disabled={createLinkLoading} onClick={handlerCreateOnClick}> Create link! </button>
+          </div>
+          {createdLink&&<div>
+            <a href={`http://localhost:8667/e/${createdLink}`} target="_blank" rel="noreferrer" >{`http://localhost:8667/e/${createdLink}`}</a>
+          </div>}
+        </div>
       </header>
     </div>
   );

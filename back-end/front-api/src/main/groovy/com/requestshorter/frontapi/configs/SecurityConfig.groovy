@@ -70,7 +70,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers('/api/shortContent/create', '/inner/*').permitAll()
+                .antMatchers('/api/shortContent/create', '/api/shortContent/statistic/count', '/api/click/statistic', '/inner/*').permitAll()
                 .anyRequest().authenticated()
 
         http

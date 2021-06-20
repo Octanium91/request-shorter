@@ -26,11 +26,15 @@ class ClientRequest {
 
     boolean loadStatistic = true
 
-    String country = ""
+    String country = "unknown"
 
-    String device = ""
+    String device = "unknown"
 
-    String operatingSystem = ""
+    boolean mobile = false
+
+    String browser = "unknown"
+
+    String operatingSystem = "unknown"
 
     @Version
     long version

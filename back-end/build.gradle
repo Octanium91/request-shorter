@@ -52,6 +52,8 @@ project('front-api') {
 	version = '0.0.1-SNAPSHOT'
 
 	dependencies {
+		implementation 'com.maxmind.geoip2:geoip2:2.15.0'
+		implementation 'com.axlabs:ip2asn2cc:0.0.1'
 	}
 
 }

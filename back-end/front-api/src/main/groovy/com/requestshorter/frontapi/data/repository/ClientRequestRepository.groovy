@@ -9,6 +9,8 @@ interface ClientRequestRepository extends MongoRepository<ClientRequest, String>
 
     List<ClientRequest> findAllByShortContentId(String shortContentId)
 
+    List<ClientRequest> findAllByLoadStatistic(boolean loadStatistic)
+
     Long countByShortContentId(String shortContentId)
 
 }

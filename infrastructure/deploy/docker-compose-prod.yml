@@ -21,7 +21,7 @@ services:
       - mongodb
     restart: unless-stopped
     volumes:
-      - ./java/proxy-server-service-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+      - ./java/entity-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
     environment:
       appMode: prod
       baseHost: https://slink.sbs
@@ -41,7 +41,7 @@ services:
       - mongodb
     restart: unless-stopped
     volumes:
-       - ./java/proxy-service-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+       - ./java/front-api-0.0.1-SNAPSHOT-plain.jar:/gjava/java.jar
     environment:
       appMode: prod
       baseHost: https://slink.sbs
@@ -61,7 +61,7 @@ services:
       - mongodb
     restart: unless-stopped
     volumes:
-      - ./java/scheduler-service-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+      - ./java/scheduler-0.0.1-SNAPSHOT.jar:/gjava/java.jar
     environment:
       appMode: prod
       baseHost: https://slink.sbs

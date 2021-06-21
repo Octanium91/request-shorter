@@ -76,7 +76,7 @@ services:
   frontservice:
     image: nginx:1.19.6
     depends_on:
-      - adminservice
+      - frontapiservice
     restart: unless-stopped
     volumes:
       - ./front:/usr/share/nginx/html

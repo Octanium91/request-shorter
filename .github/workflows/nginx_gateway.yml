@@ -13,7 +13,7 @@ jobs:
       REMOTE_USER: ${{ secrets.DEPLOY_USER }}
       REMOTE_PORT: ${{ secrets.DEPLOY_PORT }}
       ARGS: "-rltgoDzvO --delete"  
-      SOURCE: "infrastructure/deploy/gateway/"
+      SOURCE: "infrastructure/gateway/"
       TARGET: "/root/nginx-gateway/"    
     strategy:
           matrix:

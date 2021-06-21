@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.Shorter-content {
+}
+
+.Stat-click {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.Create-link-block {
+  display: inline-flex;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.Create-link-button {
+  margin-left: 5px;
+  border-radius: 10px;
+}
+
+.Link-content {
+  margin-top: 5px;
+  padding: 6px;
+  border-style: dashed;
+  border-radius: 20px;
+}

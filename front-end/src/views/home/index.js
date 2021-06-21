@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import '../../App.css';
 import apiService from "../../service/ApiService";
 
@@ -7,7 +7,7 @@ function Home() {
   const [createLinkLoading, setCreateLinkLoading] = useState(false)
   const [clientLink, setClientLink] = useState('');
   const [createdLink, setCreatedLink] = useState('')
-  const [linkProtocol, setLinkProtocol] = useState(`https`)
+  const [linkProtocol, setLinkProtocol] = useState(`HTTPS`)
 
   const handlerLinkOnChange = (e) => {
     setClientLink(e.target.value)
@@ -16,8 +16,8 @@ function Home() {
   const handlerCreateOnClick = () => {
     if (clientLink) {
       let httpPrefix = ``
-      if (clientLink.indexOf(`http`) === -1) {
-        httpPrefix = `${linkProtocol}://`
+      if (clientLink.toLowerCase().indexOf(`http`) === -1) {
+        httpPrefix = `${linkProtocol.toLowerCase()}://`
       }
       setCreateLinkLoading(true)
       apiService.createShortLink("LINK", `${httpPrefix}${clientLink}`).then((req) => {
@@ -30,33 +30,32 @@ function Home() {
     }
   }
 
-  useEffect(() => {
-    console.log("Loading, ok")
-  }, [])
-
   return (
     <div className="App">
       <header className="App-header">
-        <div>
+        <div className={`Shorter-content`}>
           <span>Link shorter! Fast and free!</span>
         </div>
         <div>
-          <span>Enter link and press 'Create link' for create short link!</span>
           <div>
-            <select defaultValue={linkProtocol} onChange={(event) => {setLinkProtocol(event.target.value)}} >
-              <option>http</option>
-              <option>https</option>
-            </select>
-            <input defaultValue={clientLink} onChange={handlerLinkOnChange} />
-            <button disabled={createLinkLoading} onClick={handlerCreateOnClick}> Create link </button>
+            <span>Enter link and press 'Create link' for create short link!</span>
           </div>
-          {createdLink&&<div>
+          <div className={`Create-link-block`}>
+            <select className={`Protocol`} defaultValue={linkProtocol} onChange={(event) => {setLinkProtocol(event.target.value)}} >
+              <option>HTTP</option>
+              <option>HTTPS</option>
+            </select>
+            <input defaultValue={clientLink} placeholder={`https://exemple.com/AKSHGDKSAGDG`} onChange={handlerLinkOnChange} />
+            <button className={`Create-link-button`} disabled={createLinkLoading} onClick={handlerCreateOnClick}> Create link </button>
+          </div>
+          {createdLink&&<div className={`Link-content`}>
+            <span>Wow, link created!</span>
             <div>
-              <span>Your short link:</span>
+              <span>Your short link: </span>
               <a href={`${process.env.REACT_APP_APP_URL}/e/${createdLink}`} target="_blank" rel="noreferrer" >{`${process.env.REACT_APP_APP_URL}/e/${createdLink}`}</a>
             </div>
             <div>
-              <span>Your statistic link:</span>
+              <span>Your statistic link: </span>
               <a href={`${process.env.REACT_APP_APP_URL}/s/${createdLink}`} target="_blank" rel="noreferrer" >{`${process.env.REACT_APP_APP_URL}/s/${createdLink}`}</a>
             </div>
           </div>}

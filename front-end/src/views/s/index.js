@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
+import StatItem from "./StatItem";
 import '../../App.css';
 import apiService from "../../service/ApiService";
 
@@ -33,24 +34,17 @@ function S() {
                     <span> Short link statistic for: </span>
                     <b>{code}</b>
                 </div>
-                <div>
-                    <span>{`Clicks count: ${clicksCount}`}</span>
+                <div className={`Stat-click`}>
+                    <span>{`Total clicks: ${clicksCount}`}</span>
                 </div>
                 <div>
                     {loading && <span>Loading ...</span>}
-                    {!loading && <div></div>}
-                    {!loading && <div>
-                        <span>Country:</span>
-                        {countryList.map((it) => <div><span>{`* ${it.value}: ${it.count}`}</span></div>)}
-                    </div>}
-                    {!loading && <div>
-                        <span>OS:</span>
-                        {osList.map((it) => <div><span>{`* ${it.value}: ${it.count}`}</span></div>)}
-                    </div>}
+                    {!loading && <StatItem title={"Country"} data={countryList} />}
+                    {!loading && <StatItem title={"Operating system"} data={osList} />}
                 </div>
             </header>
         </div>
     )
 }
 
-export default S;
+export default S

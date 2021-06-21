@@ -1,0 +1,246 @@
+name: prod
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      MODE: "prod"
+      working-back-dir: ./back-end
+      working-front-dir: ./front-end
+      SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+      REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
+      REMOTE_USER: ${{ secrets.DEPLOY_USER }}
+      REMOTE_PORT: ${{ secrets.DEPLOY_PORT }}
+      ARGS: "-rltgoDzvO --delete"  
+      SOURCE: "infrastructure/deploy/"
+      TARGET: "/root/app/deploy-prod/"    
+    strategy:
+          matrix:
+            node-version: [15.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1 
+      - name: Setup front
+        working-directory: ${{env.working-front-dir}}
+        run: yarn
+      - name: Build front
+        working-directory: ${{env.working-front-dir}}
+        run: yarn build
+      - name: Make directory for front
+        run: mkdir -p ./infrastructure/deploy/front/   
+      - name: Move front in deploy folder
+        run: mv ./front-end/build/ ./infrastructure/deploy/front/
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Make gradlew executable
+        working-directory: ${{env.working-back-dir}}
+        run: chmod +x ./gradlew  
+      - name: Make directory for java
+        run: mkdir -p ./infrastructure/deploy/java/   
+      - name: Build front-api
+        working-directory: ${{env.working-back-dir}}
+        run: ./gradlew front-api:bootJar
+      - name: Build entity-api
+        working-directory: ${{env.working-back-dir}}
+        run: ./gradlew entity-api:bootJar
+      - name: Build scheduler
+        working-directory: ${{env.working-back-dir}}
+        run: ./gradlew scheduler:bootJar
+      - name: Move libs file
+        run: mv ./back-end/build/libs/*.jar ./infrastructure/deploy/java/
+      - name: Copy on machine
+        uses: easingthemes/ssh-deploy@v2.1.5
+      - name: Make PROD directory
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mkdir -p /root/app/${{env.MODE}}
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Make image avatars directory
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mkdir -p /root/app/${{env.MODE}}/files/img/avatars
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+#       - name: Clear stage version directory
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: rm -Rf /root/crm/${{env.MODE}}/${{ github.run_number }}  || true
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Make stage version directory
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mkdir -p /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}    
+      - name: Replace docker-compose
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cp -rf /root/app/deploy-${{env.MODE}}/docker-compose-${{env.MODE}}.yml /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/docker-compose.yml
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}} 
+#       - name: Replace init-mongo.sh
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: cp -rf /root/crm/deploy-${{env.MODE}}/init-mongo.sh /root/crm/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/init-mongo.sh
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}} 
+      - name: Replace front [1/2]
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mkdir -p /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/front/
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}     
+      - name: Replace front [2/2]
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cp -rf /root/app/deploy-${{env.MODE}}/front/build/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/front/
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}  
+      - name: Replace gateway [1/2]
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mkdir -p /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/gateway/
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}  
+      - name: Replace gateway  [2/2]
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cp -rf /root/app/deploy-${{env.MODE}}/${{env.MODE}}/gateway/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/gateway/
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}  
+      - name: Replace java [1/2]
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: mkdir -p /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/java/
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}     
+      - name: Replace java [1/2]
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cp -rf /root/app/deploy-${{env.MODE}}/java/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/java/
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Docker down
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: docker-compose -f /root/app/${{env.MODE}}/$(cat /root/app/${{env.MODE}}/current_version)/docker-compose.yml down || true
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+#       - name: Make database backup
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: cp -rf /root/app/prod/mongodb /root/crm/prod/db-backup/mongodb_$(date +%F_%H-%M-%S)
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Docker start
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: docker-compose -f /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/docker-compose.yml up -d
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+#       - name: Remove old backup folder
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: rm -Rf /root/crm/${{env.MODE}}/$(cat /root/crm/${{env.MODE}}/previous_version) || true
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Save previous version
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: echo $(cat /root/app/${{env.MODE}}/current_version)>/root/app/${{env.MODE}}/previous_version
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Save current worked version
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: echo ${{env.MODE}}_${{ github.run_number }}>/root/app/${{env.MODE}}/current_version
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Remove temp folder
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: rm -Rf /root/app/deploy-${{env.MODE}}
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}             
+#       - name: Grafana restart
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: docker-compose -f /root/crm/grafana/docker-compose.yml restart || true
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}} 
+#       - name: Grafana start
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: docker-compose -f /root/crm/grafana/docker-compose.yml up -d || true
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}}

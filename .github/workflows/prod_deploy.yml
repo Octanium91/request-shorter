@@ -48,8 +48,6 @@ jobs:
       - name: Build front-api
         working-directory: ${{env.working-back-dir}}
         run: ./gradlew front-api:bootJar
-      - name: Move libs file
-        run: mv ./back-end/build/libs/*.jar ./infrastructure/deploy/java/
       - name: Build entity-api
         working-directory: ${{env.working-back-dir}}
         run: ./gradlew entity-api:bootJar

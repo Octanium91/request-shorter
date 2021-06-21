@@ -1,0 +1,43 @@
+name: nginx_gateway
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+      REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
+      REMOTE_USER: ${{ secrets.DEPLOY_USER }}
+      REMOTE_PORT: ${{ secrets.DEPLOY_PORT }}
+      ARGS: "-rltgoDzvO --delete"  
+      SOURCE: "infrastructure/deploy/gateway/"
+      TARGET: "/root/nginx-gateway/"    
+    strategy:
+          matrix:
+            node-version: [15.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker down
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: docker-compose -f /root/nginx-gateway/docker-compose.yml down || true
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}} 
+      - name: Copy on machine
+        uses: easingthemes/ssh-deploy@v2.1.5  
+      - name: Docker start
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: docker-compose -f /root/nginx-gateway/docker-compose.yml up -d
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}            
+          

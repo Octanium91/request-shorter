@@ -1,0 +1,91 @@
+version: '3.3'
+
+services:
+
+  mongodb:
+    image: mongo:4.4.5
+    restart: unless-stopped
+    volumes:
+      - ../mongodb/data:/data/db
+    ports:
+      - "127.0.0.1:1201:27017"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  entityservice:
+    image: openjdk:11
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    volumes:
+      - ./java/proxy-server-service-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+    environment:
+      appMode: prod
+      baseHost: https://slink.sbs
+      spring_data_mongodb_host: mongodb
+    command: /bin/bash -c "chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
+    ports:
+      - "127.0.0.1:1103:8667"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  frontapiservice:
+    image: openjdk:11
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    volumes:
+       - ./java/proxy-service-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+    environment:
+      appMode: prod
+      baseHost: https://slink.sbs
+      spring_data_mongodb_host: mongodb
+    command: /bin/bash -c "chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
+    ports:
+      - "127.0.0.1:1102:8666"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  schedulerservice:
+    image: openjdk:11
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    volumes:
+      - ./java/scheduler-service-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+    environment:
+      appMode: prod
+      baseHost: https://slink.sbs
+      spring_data_mongodb_host: mongodb
+    command: /bin/bash -c "chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  frontservice:
+    image: nginx:1.19.6
+    depends_on:
+      - adminservice
+    restart: unless-stopped
+    volumes:
+      - ./front:/usr/share/nginx/html
+      - ../files:/usr/share/nginx/html/files
+      - ./gateway/nginx.front.conf:/etc/nginx/nginx.conf
+    ports:
+      - "127.0.0.1:1101:80"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m

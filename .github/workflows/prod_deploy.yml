@@ -141,7 +141,7 @@ jobs:
       - name: Replace gateway  [2/2]
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cp -rf /root/app/deploy-${{env.MODE}}/${{env.MODE}}/gateway/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/gateway/
+          command: cp -rf /root/app/deploy-${{env.MODE}}/gateway/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/gateway/
           host: ${{ secrets.DEPLOY_HOST }}
           port: ${{ secrets.DEPLOY_PORT }}
           username: ${{ secrets.DEPLOY_USER }}

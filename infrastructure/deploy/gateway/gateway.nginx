@@ -102,8 +102,8 @@ server {
     listen 443 ssl;
     server_name portainer.slink.sbs;
 
-    ssl_certificate /etc/letsencrypt/live/proxy-crm.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/proxy-crm.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/slink.sbs/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/slink.sbs/privkey.pem;
 
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;

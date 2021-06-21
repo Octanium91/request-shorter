@@ -41,7 +41,7 @@ services:
       - mongodb
     restart: unless-stopped
     volumes:
-       - ./java/front-api-0.0.1-SNAPSHOT-plain.jar:/gjava/java.jar
+       - ./java/front-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
     environment:
       appMode: prod
       baseHost: https://slink.sbs

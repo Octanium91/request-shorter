@@ -1,10 +1,15 @@
 import React, { Component }  from "react";
+import { CircularProgress, Container } from '@material-ui/core';
 import "./index.css"
 
 class Loading extends Component {
     render() {
         return (
-            <span className={"loading"}>Loading...</span>
+            <Container maxWidth="sm">
+                <div className={`loading`}>
+                    <CircularProgress />
+                </div>
+            </Container>
         )
     }
 }

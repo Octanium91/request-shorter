@@ -47,11 +47,9 @@ function Home() {
   return (
       <React.Fragment>
         <AppBar style={{ marginBottom: "15px" }} position="static">
-          <Toolbar>
-            <Typography variant="h6">
+            <Typography style={{ marginBottom: "5px", marginTop: "5px" }} align={'center'} variant="h4">
               Link shorter! Fast and free!
             </Typography>
-          </Toolbar>
         </AppBar>
         <Container maxWidth="sm">
           <Grid container justify="center" alignItems="center">

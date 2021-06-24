@@ -91,6 +91,8 @@ services:
       - ./front:/usr/share/nginx/html
       - ../files:/usr/share/nginx/html/files
       - ./gateway/nginx.front.conf:/etc/nginx/nginx.conf
+    environment:
+      REACT_APP_APP_URL: https://slink.sbs
     ports:
       - "127.0.0.1:1101:80"
     logging:

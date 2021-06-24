@@ -28,6 +28,8 @@ class ClientRequest {
 
     String country = "unknown"
 
+    String city = "unknown"
+
     String device = "unknown"
 
     boolean mobile = false

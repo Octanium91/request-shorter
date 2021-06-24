@@ -3,6 +3,7 @@ package com.requestshorter.frontapi.service
 import com.axlabs.ip2asn2cc.Ip2Asn2Cc
 import com.axlabs.ip2asn2cc.model.FilterPolicy
 import com.maxmind.geoip2.DatabaseReader
+import com.maxmind.geoip2.model.CityResponse
 import com.maxmind.geoip2.model.CountryResponse
 import com.maxmind.geoip2.record.Country
 import com.requestshorter.frontapi.data.domains.ClientRequest
@@ -10,8 +11,10 @@ import com.requestshorter.frontapi.data.domains.ShortContent
 import com.requestshorter.frontapi.data.repository.ClientRequestRepository
 import com.requestshorter.frontapi.model.clientRequest.ClientRequestIPAPIInfoDto
 import com.requestshorter.frontapi.model.clientRequest.ClientRequestUserAgentInfoDto
+import com.requestshorter.frontapi.model.geoIP2.GeoIP2Response
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import com.requestshorter.frontapi.Utils.UAgentInfo
 
@@ -24,6 +27,10 @@ import java.net.http.HttpResponse
 @Service
 class ClientRequestService {
 
+    @Value('${geoLiteCountryDataBase}')
+    private final String geoLiteCountryDataBase = ''
+    @Value('${geoLiteCityDataBase}')
+    private final String geoLiteCityDataBase = ''
     @Autowired ClientRequestRepository clientRequestRepository
 
     private List<String> listAlpha2CountryCode = [
@@ -252,22 +259,26 @@ class ClientRequestService {
         ret
     }
 
-    String defineCountryByIPProvGeoIP2(String ip) {
+    GeoIP2Response defineCountryByIPProvGeoIP2(String ip) {
         log.info("Define country by IP use GeoIP2")
+        GeoIP2Response geoIP2Response = new GeoIP2Response()
         String countryCode = ''
         try {
 
-            File database = new File("D:\\GeoLite2-Country\\GeoLite2-Country.mmdb")
-            DatabaseReader reader = new DatabaseReader.Builder(database).build();
+            File databaseCountry = new File(geoLiteCountryDataBase)
+            File databaseCity = new File(geoLiteCityDataBase)
+            DatabaseReader CountryReader = new DatabaseReader.Builder(databaseCountry).build();
+            DatabaseReader CityReader = new DatabaseReader.Builder(databaseCity).build();
             InetAddress ipAddress = InetAddress.getByName(ip);
-            CountryResponse response = reader.country(ipAddress);
-            Country country = response.getCountry();
-            countryCode = country.getIsoCode()
-
+            CountryResponse CountryResponse = CountryReader.country(ipAddress)
+            CityResponse CityResponse = CityReader.city(ipAddress)
+            Country country = CountryResponse.getCountry();
+            geoIP2Response.countryIso = country.getIsoCode()
+            geoIP2Response.cityIso = CityResponse.city.getName()
         } catch(e) {
             log.warn("Error define country for ip ${ip}", e)
         }
-        countryCode
+        geoIP2Response
     }
 
     ClientRequestUserAgentInfoDto userAgentInfo(String userAgent) {

@@ -2,6 +2,7 @@ package com.requestshorter.scheduler.service
 
 import com.requestshorter.frontapi.model.clientRequest.ClientRequestIPAPIInfoDto
 import com.requestshorter.frontapi.model.clientRequest.ClientRequestUserAgentInfoDto
+import com.requestshorter.frontapi.model.geoIP2.GeoIP2Response
 import com.requestshorter.frontapi.service.ClientRequestService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,9 +20,12 @@ class SchedulerLoadStatisticService {
         clientRequestService.getAllForLoadStatistic().forEach({
             log.info("Load statistic for ${it.id}...")
             String countryCode = ""
+            String cityName = ""
             ClientRequestUserAgentInfoDto userAgentInfo = new ClientRequestUserAgentInfoDto()
             if (it.ipAddress) {
-                countryCode = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress)
+                GeoIP2Response geoIP2Response = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress)
+                countryCode = geoIP2Response.countryIso
+                cityName = geoIP2Response.cityIso
                 if (!countryCode) {
                     ClientRequestIPAPIInfoDto IPAPIInfo = clientRequestService.defineCountryByIPProvIPAIP(it.ipAddress)
                     countryCode = IPAPIInfo.country_code
@@ -35,6 +39,9 @@ class SchedulerLoadStatisticService {
             }
             if (countryCode) {
                 it.country = countryCode
+            }
+            if (cityName) {
+                it.city = cityName
             }
             it.mobile = userAgentInfo.mobile
             it.operatingSystem = userAgentInfo.os

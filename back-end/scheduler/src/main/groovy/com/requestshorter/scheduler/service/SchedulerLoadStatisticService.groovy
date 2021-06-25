@@ -24,7 +24,7 @@ class SchedulerLoadStatisticService {
             ClientRequestUserAgentInfoDto userAgentInfo = new ClientRequestUserAgentInfoDto()
             if (it.ipAddress) {
                 GeoIP2Response geoIP2Response = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress)
-                countryCode = geoIP2Response.countryIso
+                countryCode = (geoIP2Response.countryIso !== "unknown")?geoIP2Response.countryIso:''
                 cityName = geoIP2Response.cityIso
                 if (!countryCode) {
                     ClientRequestIPAPIInfoDto IPAPIInfo = clientRequestService.defineCountryByIPProvIPAIP(it.ipAddress)

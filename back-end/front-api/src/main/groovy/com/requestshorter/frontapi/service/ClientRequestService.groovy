@@ -371,7 +371,7 @@ class ClientRequestService {
         {
             userAgentDto.browserAndVersion="telegram"
             userAgentDto.browser = "telegram"
-        }  else if(user.contains("PostmanRuntime"))
+        }  else if(user.contains("postmanruntime"))
         {
             userAgentDto.browserAndVersion="postman"
             userAgentDto.browser = "postman"

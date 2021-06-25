@@ -30,58 +30,50 @@ function S() {
     // const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-            if (osLoad && Object.entries(osObj).length > 0) {
-                const treeList = []
-                let index = 0
-                for (const [key, value] of Object.entries(osObj)) {
-                    index = index + 1
-                    treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
-                }
-                setOsList(treeList)
-                setOsLoad(false)
+            const treeList = []
+            let index = 0
+            for (const [key, value] of Object.entries(osObj)) {
+                index = index + 1
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
             }
+            setOsList(treeList)
+            setOsLoad(false)
         }, // eslint-disable-next-line
         [ osObj ])
 
     useEffect(() => {
-            if (mobileLoad && Object.entries(mobileObj).length > 0) {
-                const treeList = []
-                let index = 0
-                for (const [key, value] of Object.entries(mobileObj)) {
-                    index = index + 1
-                    treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
-                }
-                setMobileList(treeList)
-                setMobileLoad(false)
+            const treeList = []
+            let index = 0
+            for (const [key, value] of Object.entries(mobileObj)) {
+                index = index + 1
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
             }
+            setMobileList(treeList)
+            setMobileLoad(false)
         }, // eslint-disable-next-line
         [ mobileObj ])
 
     useEffect(() => {
-            if (deviceLoad && Object.entries(deviceObj).length > 0) {
-                const treeList = []
-                let index = 0
-                for (const [key, value] of Object.entries(deviceObj)) {
-                    index = index + 1
-                    treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
-                }
-                setDeviceList(treeList)
-                setDeviceLoad(false)
+            const treeList = []
+            let index = 0
+            for (const [key, value] of Object.entries(deviceObj)) {
+                index = index + 1
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
             }
+            setDeviceList(treeList)
+            setDeviceLoad(false)
         }, // eslint-disable-next-line
         [ deviceObj ])
 
     useEffect(() => {
-            if (browserLoad && Object.entries(browserObj).length > 0) {
-                const treeList = []
-                let index = 0
-                for (const [key, value] of Object.entries(browserObj)) {
-                    index = index + 1
-                    treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
-                }
-                setBrowserList(treeList)
-                setBrowserLoad(false)
+            const treeList = []
+            let index = 0
+            for (const [key, value] of Object.entries(browserObj)) {
+                index = index + 1
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
             }
+            setBrowserList(treeList)
+            setBrowserLoad(false)
         }, // eslint-disable-next-line
         [ browserObj ])
 
@@ -109,10 +101,8 @@ function S() {
     }
 
     useEffect(() => {
-            if (countryLoad && Object.entries(countryObj).length > 0 && Object.entries(cityObj).length > 0) {
-                setCountyList(createCountryTree(countryObj, cityObj))
-                setCountyLoad(false)
-            }
+            setCountyList(createCountryTree(countryObj, cityObj))
+            setCountyLoad(false)
         }, // eslint-disable-next-line
         [ countryObj, cityObj ])
 

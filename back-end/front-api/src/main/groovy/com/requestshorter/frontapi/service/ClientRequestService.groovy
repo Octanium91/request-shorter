@@ -288,6 +288,29 @@ class ClientRequestService {
 
         userAgentDto.mobile = uAgentInfo.isMobilePhone
 
+        if (uAgentInfo.isAndroid) {
+            userAgentDto.device = 'android'
+        } else if (uAgentInfo.isAndroidPhone) {
+            userAgentDto.device = 'android'
+        } else if (uAgentInfo.isIphone) {
+            userAgentDto.device = 'iPhone'
+        } else if (uAgentInfo.detectWindowsMobile()) {
+            userAgentDto.device = 'windows mobile'
+        } else if (uAgentInfo.detectWindowsPhone()) {
+            userAgentDto.device = 'windows phone'
+        } else if (uAgentInfo.detectBlackBerry()) {
+            userAgentDto.device = 'black berry'
+        } else if (uAgentInfo.detectIpad()) {
+            userAgentDto.device = 'iPad'
+        } else if (uAgentInfo.detectXbox()) {
+            userAgentDto.device = 'xBox'
+        } else if (uAgentInfo.detectNintendo()) {
+            userAgentDto.device = 'nintendo'
+        } else {
+            userAgentDto.device = 'unknown'
+        }
+
+
         String user = userAgent.toLowerCase();
         if (userAgent.toLowerCase().indexOf("windows") >= 0 )
         {
@@ -300,7 +323,7 @@ class ClientRequestService {
             userAgentDto.os = "unix"
         } else if(userAgent.toLowerCase().indexOf("android") >= 0)
         {
-            userAgentDto.os = "android"
+            userAgentDto.os = "unix"
         } else if(userAgent.toLowerCase().indexOf("iphone") >= 0)
         {
             userAgentDto.os = "ios"
@@ -344,6 +367,14 @@ class ClientRequestService {
         {
             userAgentDto.browserAndVersion="IE-" + user.substring(user.indexOf("rv") + 3, user.indexOf(")"))
             userAgentDto.browser = "ie"
+        }  else if(user.contains("telegram"))
+        {
+            userAgentDto.browserAndVersion="telegram"
+            userAgentDto.browser = "telegram"
+        }  else if(user.contains("PostmanRuntime"))
+        {
+            userAgentDto.browserAndVersion="postman"
+            userAgentDto.browser = "postman"
         } else
         {
             userAgentDto.browserAndVersion = "unknown"

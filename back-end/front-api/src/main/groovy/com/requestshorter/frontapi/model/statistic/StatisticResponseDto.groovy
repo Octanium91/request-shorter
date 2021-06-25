@@ -6,6 +6,12 @@ class StatisticResponseDto {
 
     Map<String, Map<String, Integer>> city
 
-    List<StatisticData> os
+    Map<String, Integer> mobile
+
+    Map<String, Integer> browser
+
+    Map<String, Integer> device
+
+    Map<String, Integer> os
 
 }

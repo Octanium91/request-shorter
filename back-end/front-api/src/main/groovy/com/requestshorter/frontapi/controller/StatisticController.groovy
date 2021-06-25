@@ -24,14 +24,32 @@ class StatisticController {
         ShortContent shortContent = shortContentService.getByCode(code)
         if (shortContent) {
             Map<String, Integer> countryMap = [:]
+            Map<String, Integer> browserMap = [:]
+            Map<String, Integer> mobileMap = [:]
+            Map<String, Integer> deviceMap = [:]
             Map<String, Map<String, Integer>> cityMap = [:]
             Map<String, Integer> osMap = [:]
             clientRequestService.getAllByShortContent(shortContent.id).forEach {
                 if (!it.loadStatistic) {
+                    if (mobileMap.get((it.mobile)?"mobile":"pc")) {
+                        mobileMap.put((it.mobile)?"mobile":"pc", mobileMap.get((it.mobile)?"mobile":"pc") + 1)
+                    } else {
+                        mobileMap.put((it.mobile)?"mobile":"pc", 1)
+                    }
                     if (countryMap.get(it.country)) {
                         countryMap.put(it.country, countryMap.get(it.country) + 1)
                     } else {
                         countryMap.put(it.country, 1)
+                    }
+                    if (browserMap.get(it.browser)) {
+                        browserMap.put(it.browser, browserMap.get(it.browser) + 1)
+                    } else {
+                        browserMap.put(it.browser, 1)
+                    }
+                    if (deviceMap.get(it.device)) {
+                        deviceMap.put(it.device, deviceMap.get(it.device) + 1)
+                    } else {
+                        deviceMap.put(it.device, 1)
                     }
                     Map<String, Integer> tempCityMap = cityMap.get(it.country)
                     if (tempCityMap) {
@@ -54,15 +72,13 @@ class StatisticController {
                 }
             }
 
-            List<StatisticData> countryList = []
-            countryMap.each { countryList.add(new StatisticData(value: it.key, count: it.value)) }
-            List<StatisticData> osList = []
-            osMap.each { osList.add(new StatisticData(value: it.key, count: it.value)) }
-
             new StatisticResponseDto(
                     country: countryMap,
+                    mobile: mobileMap,
+                    device: deviceMap,
+                    browser: browserMap,
                     city: cityMap,
-                    os: osList
+                    os: osMap
             )
         } else {
             log.warn("Short content ${code} not found!")

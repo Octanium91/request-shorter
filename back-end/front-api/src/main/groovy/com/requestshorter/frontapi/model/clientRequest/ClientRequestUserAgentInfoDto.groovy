@@ -10,4 +10,6 @@ class ClientRequestUserAgentInfoDto {
 
     boolean mobile = false
 
+    String device = ''
+
 }

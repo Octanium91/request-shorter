@@ -5,6 +5,7 @@ import com.axlabs.ip2asn2cc.model.FilterPolicy
 import com.maxmind.geoip2.DatabaseReader
 import com.maxmind.geoip2.model.CityResponse
 import com.maxmind.geoip2.model.CountryResponse
+import com.maxmind.geoip2.record.City
 import com.maxmind.geoip2.record.Country
 import com.requestshorter.frontapi.data.domains.ClientRequest
 import com.requestshorter.frontapi.data.domains.ShortContent
@@ -262,7 +263,6 @@ class ClientRequestService {
     GeoIP2Response defineCountryByIPProvGeoIP2(String ip) {
         log.info("Define country by IP use GeoIP2")
         GeoIP2Response geoIP2Response = new GeoIP2Response()
-        String countryCode = ''
         try {
 
             File databaseCountry = new File(geoLiteCountryDataBase)
@@ -272,9 +272,10 @@ class ClientRequestService {
             InetAddress ipAddress = InetAddress.getByName(ip);
             CountryResponse CountryResponse = CountryReader.country(ipAddress)
             CityResponse CityResponse = CityReader.city(ipAddress)
-            Country country = CountryResponse.getCountry();
+            Country country = CountryResponse.getCountry()
+            City city = CityResponse.getCity()
             geoIP2Response.countryIso = country.getIsoCode()
-            geoIP2Response.cityIso = CityResponse.city.getName()
+            geoIP2Response.cityIso = city.getName()
         } catch(e) {
             log.warn("Error define country for ip ${ip}", e)
         }

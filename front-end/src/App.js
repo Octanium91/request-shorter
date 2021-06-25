@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { routes } from "./routes";
-import Loading from "./components/SuspenseLoding"
+import Loading from "./components/suspenseLoding"
 
 function App() {
 

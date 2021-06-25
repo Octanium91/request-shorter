@@ -24,6 +24,7 @@ class StatisticController {
         ShortContent shortContent = shortContentService.getByCode(code)
         if (shortContent) {
             Map<String, Integer> countryMap = [:]
+            Map<String, Map<String, Integer>> cityMap = [:]
             Map<String, Integer> osMap = [:]
             clientRequestService.getAllByShortContent(shortContent.id).forEach {
                 if (!it.loadStatistic) {
@@ -31,6 +32,19 @@ class StatisticController {
                         countryMap.put(it.country, countryMap.get(it.country) + 1)
                     } else {
                         countryMap.put(it.country, 1)
+                    }
+                    Map<String, Integer> tempCityMap = cityMap.get(it.country)
+                    if (tempCityMap) {
+                        if (tempCityMap.get(it.city)) {
+                            tempCityMap.put(it.city, tempCityMap.get(it.city) + 1)
+                        } else {
+                            tempCityMap.put(it.city, 1)
+                        }
+                        cityMap.put(it.country, tempCityMap)
+                    } else {
+                        Map<String, Integer> tempNewCityMap = [:]
+                        tempNewCityMap.put(it.city, 1)
+                        cityMap.put(it.country, tempNewCityMap)
                     }
                     if (osMap.get(it.operatingSystem)) {
                         osMap.put(it.operatingSystem, osMap.get(it.operatingSystem) + 1)
@@ -46,7 +60,8 @@ class StatisticController {
             osMap.each { osList.add(new StatisticData(value: it.key, count: it.value)) }
 
             new StatisticResponseDto(
-                    country: countryList,
+                    country: countryMap,
+                    city: cityMap,
                     os: osList
             )
         } else {

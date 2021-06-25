@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Select, TextField, Grid, Divider, Input, CircularProgress, Container, Typography, AppBar, Button } from '@material-ui/core';
+import { Select, TextField, Tooltip, Grid, Divider, Input, CircularProgress, Container, Typography, Button, Fab } from '@material-ui/core';
 import { FileCopy } from '@material-ui/icons';
+import Header from "../../components/header";
 import '../../App.css';
 import apiService from "../../service/ApiService";
 
@@ -50,11 +51,7 @@ function Home() {
 
   return (
       <React.Fragment>
-        <AppBar style={{ marginBottom: "15px" }} position="static">
-            <Typography style={{ marginBottom: "5px", marginTop: "5px" }} display={`inline`} align={'center'} variant="h4">
-              Link shorter! Fast and free!
-            </Typography>
-        </AppBar>
+        <Header />
         <Container maxWidth="sm">
           <div style={{ display: "flax", alignItems: "center", justifyContent: "center" }}>
             <Grid container justify="center" alignItems="center">
@@ -92,7 +89,15 @@ function Home() {
                     }}
                     value={`${process.env.REACT_APP_APP_URL}/e/${createdLink}`}
                 />
-                <Button variant="outlined" startIcon={<FileCopy />} onClick={() => {navigator.clipboard.writeText(`${process.env.REACT_APP_APP_URL}/e/${createdLink}`)}} />
+                <Tooltip title="Copy short link" aria-label="Copy short link tip">
+                  <Fab
+                      aria-label="Copy short link action"
+                      size={"small"}
+                      onClick={() => {navigator.clipboard.writeText(`${process.env.REACT_APP_APP_URL}/e/${createdLink}`)}}
+                  >
+                    <FileCopy />
+                  </Fab>
+                </Tooltip>
               </Grid>
               <Grid container justify="center" alignItems="center" spacing={2}>
               <TextField
@@ -107,7 +112,15 @@ function Home() {
                   }}
                   value={`${process.env.REACT_APP_APP_URL}/s/${createdLink}`}
               />
-              <Button variant="outlined" startIcon={<FileCopy />} onClick={() => {navigator.clipboard.writeText(`${process.env.REACT_APP_APP_URL}/s/${createdLink}`)}} />
+              <Tooltip title="Copy statistic link" aria-label="CCopy statistic link tip">
+                <Fab
+                    aria-label="Copy statistic link action"
+                    size={"small"}
+                    onClick={() => {navigator.clipboard.writeText(`${process.env.REACT_APP_APP_URL}/s/${createdLink}`)}}
+                >
+                  <FileCopy />
+                </Fab>
+              </Tooltip>
               </Grid>
             </Grid>
             </React.Fragment>}

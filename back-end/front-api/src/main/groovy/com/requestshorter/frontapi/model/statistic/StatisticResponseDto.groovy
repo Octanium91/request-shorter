@@ -2,7 +2,9 @@ package com.requestshorter.frontapi.model.statistic
 
 class StatisticResponseDto {
 
-    List<StatisticData> country
+    Map<String, Integer> country
+
+    Map<String, Map<String, Integer>> city
 
     List<StatisticData> os
 

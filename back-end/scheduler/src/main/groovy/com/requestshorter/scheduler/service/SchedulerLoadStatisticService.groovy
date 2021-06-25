@@ -39,9 +39,13 @@ class SchedulerLoadStatisticService {
             }
             if (countryCode) {
                 it.country = countryCode
+            } else {
+                it.country = "unknown"
             }
             if (cityName) {
                 it.city = cityName
+            } else {
+                it.city = "unknown"
             }
             it.mobile = userAgentInfo.mobile
             it.operatingSystem = userAgentInfo.os

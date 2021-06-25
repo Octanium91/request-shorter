@@ -5,8 +5,11 @@ services:
   mongodb:
     image: mongo:4.4.5
     restart: unless-stopped
+    env_file:
+      - ../../config/prod_mongo.env
     volumes:
       - ../mongodb/data:/data/db
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
     ports:
       - "127.0.0.1:1201:27017"
     logging:
@@ -19,6 +22,8 @@ services:
     image: openjdk:11
     depends_on:
       - mongodb
+    env_file:
+      - ../../config/prod_mongo_auth.env
     restart: unless-stopped
     volumes:
       - ./java/entity-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
@@ -42,6 +47,8 @@ services:
     image: openjdk:11
     depends_on:
       - mongodb
+    env_file:
+      - ../../config/prod_mongo_auth.env
     restart: unless-stopped
     volumes:
        - ./java/front-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
@@ -65,6 +72,8 @@ services:
     image: openjdk:11
     depends_on:
       - mongodb
+    env_file:
+      - ../../config/prod_mongo_auth.env
     restart: unless-stopped
     volumes:
       - ./java/scheduler-0.0.1-SNAPSHOT.jar:/gjava/java.jar

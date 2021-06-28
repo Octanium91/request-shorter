@@ -3659,6 +3659,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-flags-svg@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/country-flags-svg/-/country-flags-svg-1.1.1.tgz#0c3453723ec807ce814e502f6252bad217a3968b"
+  integrity sha512-XAjsp1nsG/5nuIPq/ncyoco2vcPg9XqP7Gj5UJ0RpP8jD7uRHqFNeOdh68+tbUT0Exq2P9cV92yXDoMdnvbcFw==
+
 create-ecdh@^4.0.0:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.4.tgz#d6e7f4bffa66736085a0762fd3a632684dabcc4e"

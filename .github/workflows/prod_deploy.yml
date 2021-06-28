@@ -104,15 +104,15 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           passphrase: ''
           privateKey: ${{ secrets.DEPLOY_KEY}} 
-#       - name: Replace init-mongo.sh
-#         uses: garygrossgarten/github-action-ssh@release
-#         with:
-#           command: cp -rf /root/crm/deploy-${{env.MODE}}/init-mongo.sh /root/crm/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/init-mongo.sh
-#           host: ${{ secrets.DEPLOY_HOST }}
-#           port: ${{ secrets.DEPLOY_PORT }}
-#           username: ${{ secrets.DEPLOY_USER }}
-#           passphrase: ''
-#           privateKey: ${{ secrets.DEPLOY_KEY}}
+      - name: Replace init-mongo.sh
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cp -rf /root/app/deploy-${{env.MODE}}/init-mongo.sh /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/init-mongo.sh
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          passphrase: ''
+          privateKey: ${{ secrets.DEPLOY_KEY}}
       - name: Replace GeoLite2 [1/2]
         uses: garygrossgarten/github-action-ssh@release
         with:

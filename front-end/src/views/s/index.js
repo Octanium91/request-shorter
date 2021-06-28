@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CircularProgress, Container } from '@material-ui/core';
+import { findFlagUrlByIso2Code } from "country-flags-svg";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { TreeView, TreeItem } from '@material-ui/lab';
@@ -92,8 +93,9 @@ function S() {
         const treeList = []
         let index = 0
         for (const [key, value] of Object.entries(countryObj)) {
+            const flagUrl = findFlagUrlByIso2Code(key)
             index = index + 1
-            treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}>
+            treeList.push(<TreeItem key={index} nodeId={index.toString()} label={<>{flagUrl&&<img height={16} src={flagUrl} alt={`${key}`} />}<span>{` ${key}: ${value}`}</span></>}>
                 {createCityTree(index, key, cityObj)}
             </TreeItem>)
         }
@@ -136,7 +138,7 @@ function S() {
                 <div className={`Stat-click`}>
                     <span>{`Total clicks: ${clicksCount}`}</span>
                 </div>
-                <Card>
+                <Card style={{ margin: "4px"}}>
                     <CardHeader title="Country and city"/>
                     <CardContent>
                         {!countryLoad?<TreeView
@@ -148,7 +150,7 @@ function S() {
                         </TreeView>:<CircularProgress />}
                     </CardContent>
                 </Card>
-                <Card>
+                <Card style={{ margin: "4px"}}>
                     <CardHeader title="Operating system"/>
                     <CardContent>
                         {!osLoad?<TreeView
@@ -160,7 +162,7 @@ function S() {
                         </TreeView>:<CircularProgress />}
                     </CardContent>
                 </Card>
-                <Card>
+                <Card style={{ margin: "4px"}}>
                     <CardHeader title="Device type"/>
                     <CardContent>
                         {!mobileLoad?<TreeView
@@ -172,7 +174,7 @@ function S() {
                         </TreeView>:<CircularProgress />}
                     </CardContent>
                 </Card>
-                <Card>
+                <Card style={{ margin: "4px"}}>
                     <CardHeader title="Device"/>
                     <CardContent>
                         {!deviceLoad?<TreeView
@@ -184,7 +186,7 @@ function S() {
                         </TreeView>:<CircularProgress />}
                     </CardContent>
                 </Card>
-                <Card>
+                <Card style={{ margin: "4px"}}>
                     <CardHeader title="Browser app"/>
                     <CardContent>
                         {!browserLoad?<TreeView

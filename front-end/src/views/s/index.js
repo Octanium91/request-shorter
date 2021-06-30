@@ -7,6 +7,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { TreeView, TreeItem } from '@material-ui/lab';
 import apiService from "../../service/ApiService";
 import Header from "../../components/header";
+import Footer from "../../components/footer";
 
 function S() {
 
@@ -203,6 +204,7 @@ function S() {
                 {/*    {!loading && <StatItem title={"Country"} data={countryList} />}*/}
                 {/*    {!loading && <StatItem title={"Operating system"} data={osList} />}*/}
                 {/*</div>*/}
+                <Footer />
             </Container>
         </React.Fragment>
     )

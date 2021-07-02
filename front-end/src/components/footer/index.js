@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, Typography, Link } from '@material-ui/core';
 import "./index.css"
 
 class Footer extends Component {
@@ -8,12 +8,13 @@ class Footer extends Component {
             <>
                 <Card style={{ marginTop: "15px", marginRight: "5px", marginLeft: "5px" }}>
                     <CardContent>
-                        <span>Technologies used: Java (Groovy), MongoDB, ReactJS</span>
+                        <Typography><b>Technologies used:</b> Java, MongoDB, ReactJS, Docker, GitHub</Typography>
                     </CardContent>
                 </Card>
                 <Card style={{ margin: "5px" }}>
                     <CardContent>
-                        <span>Developed by Octanium91</span>
+                        <Typography>Developed by Octanium91</Typography>
+                        <Typography><b>Website: </b><Link href="https://octanium91.github.io/" target="_blank">octanium91.github.io</Link></Typography>
                     </CardContent>
                 </Card>
             </>

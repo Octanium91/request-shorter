@@ -6,6 +6,7 @@ import com.requestshorter.frontapi.model.shortContent.ShortContentType
 import com.requestshorter.frontapi.service.ClientRequestService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletRequest
 @Slf4j
 @RestController
 class EntityController {
+
+    @Value('${baseHost}')
+    private final String baseHost = ''
 
     @Autowired EntityService entityService
     @Autowired ClientRequestService clientRequestService
@@ -29,7 +33,7 @@ class EntityController {
                 new RedirectView(entity.link)
             }
         } else {
-            new RedirectView("/code/error/${shortCode}");
+            new RedirectView("${baseHost}/404/${shortCode}");
         }
     }
 

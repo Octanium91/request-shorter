@@ -12,6 +12,12 @@ const routes = [
         component: lazy(() => import("../views/s")),
         fullView: true,
         accessRoles: [],
+    },
+    {
+        path: "/404/:code",
+        component: lazy(() => import("../views/notFound")),
+        fullView: true,
+        accessRoles: [],
     }
 ];
 

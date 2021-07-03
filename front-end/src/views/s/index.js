@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CircularProgress, Container } from '@material-ui/core';
+import { Card, CardContent, CardHeader, CircularProgress, Container, Typography } from '@material-ui/core';
 import { findFlagUrlByIso2Code } from "country-flags-svg";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -12,6 +12,7 @@ import Footer from "../../components/footer";
 function S() {
 
     const code = useParams().code
+    const refIntervalId = useRef(0);
     const [clicksCount, setClicksCount] = useState(0)
     const [osList, setOsList] = useState([])
     const [osObj, setOsObj] = useState({})
@@ -109,11 +110,13 @@ function S() {
         }, // eslint-disable-next-line
         [ countryObj, cityObj ])
 
-    useEffect(() => {
+    const getStatistic = () => {
         apiService.shortLinkStatClickCount(code).then((req) => {
             if (req.data) {
                 setClicksCount(req.data)
             }
+        }).catch(() => {
+            clearInterval(refIntervalId.current);
         })
         apiService.clickStatistic(code).then((req) => {
             if (req.data) {
@@ -125,19 +128,30 @@ function S() {
                 setDeviceObj(req.data.device)
                 // setLoading(false)
             }
+        }).catch(() => {
+            clearInterval(refIntervalId.current);
         })
-    }, [code])
+    }
+
+    useEffect(() => {
+        getStatistic()
+        clearInterval(refIntervalId.current)
+        refIntervalId.current = setInterval(getStatistic, 3000);
+        return () => {
+            clearInterval(refIntervalId.current);
+        };
+    }, // eslint-disable-next-line
+        [code])
 
     return (
         <React.Fragment>
             <Header />
             <Container maxWidth="sm">
                 <div>
-                    <span> Short link statistic for: </span>
-                    <b>{code}</b>
+                    <Typography variant="h4" component="h3">Statistic for: <b>{code}</b></Typography>
                 </div>
                 <div className={`Stat-click`}>
-                    <span>{`Total clicks: ${clicksCount}`}</span>
+                    <Typography variant="h4" component="h3">Total clicks: <b>{clicksCount}</b></Typography>
                 </div>
                 <Card style={{ margin: "4px"}}>
                     <CardHeader title="Country and city"/>

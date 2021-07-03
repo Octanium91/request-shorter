@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CircularProgress, Container, Typography } from '@material-ui/core';
+import {
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    CircularProgress,
+    Container,
+    Tooltip,
+    Typography
+} from '@material-ui/core';
 import { findFlagUrlByIso2Code } from "country-flags-svg";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -9,7 +18,7 @@ import apiService from "../../service/ApiService";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 
-function S() {
+function S(props) {
 
     const code = useParams().code
     const refIntervalId = useRef(0);
@@ -213,6 +222,15 @@ function S() {
                         </TreeView>:<CircularProgress />}
                     </CardContent>
                 </Card>
+                <div style={{ marginTop: "30px" }} className={"d-flex justify-content-center"}>
+                    <Tooltip title="Go to home page" aria-label="Go to home page">
+                        <Button variant="contained" color="primary" onClick={() => {
+                            props.history.push("/")
+                        }}>
+                            Go on home page
+                        </Button>
+                    </Tooltip>
+                </div>
                 {/*<div>*/}
                 {/*    {loading && <span>Loading ...</span>}*/}
                 {/*    {!loading && <StatItem title={"Country"} data={countryList} />}*/}

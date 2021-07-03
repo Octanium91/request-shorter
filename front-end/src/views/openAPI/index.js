@@ -42,7 +42,7 @@ function OpenAPI(props) {
                         <Button variant="contained" color="primary" onClick={() => {
                             props.history.push("/")
                         }}>
-                            Go home!
+                            Go on home page
                         </Button>
                     </Tooltip>
                 </div>

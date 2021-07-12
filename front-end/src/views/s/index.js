@@ -20,6 +20,24 @@ import Footer from "../../components/footer";
 
 function S(props) {
 
+    const icons = {
+        unknown: { name: "Unknown", icon: "unknown.svg" },
+        unix: { name: "Unix", icon: "linux.svg" },
+        pc: { name: "PC", icon: "pc.svg" },
+        mac: { name: "Mac", icon: "pc.svg" },
+        mobile: { name: "Mobile", icon: "mobile.svg" },
+        iPhone: { name: "iPhone", icon: "iphone.svg" },
+        iPad: { name: "iPad", icon: "ipad.svg" },
+        android: { name: "Android", icon: "android.svg" },
+        ios: { name: "IOS", icon: "ios.svg" },
+        telegram: { name: "Telegram", icon: "telegram.svg" },
+        chrome: { name: "Google Chrome", icon: "chrome.svg" },
+        firefox: { name: "Firefox", icon: "firefox.svg" },
+        ie: { name: "IE", icon: "ie.svg" },
+        opera: { name: "Opera", icon: "opera.svg" },
+        windows: { name: "Windows", icon: "windows.svg" },
+    }
+
     const code = useParams().code
     const refIntervalId = useRef(0);
     const [clicksCount, setClicksCount] = useState(0)
@@ -41,12 +59,21 @@ function S(props) {
     const [countryLoad, setCountyLoad] = useState(true)
     // const [loading, setLoading] = useState(true)
 
+    const setLabel = (label, value) => {
+        if (icons.hasOwnProperty(label)) {
+            return <>{<img height={20} src={`/assets/img/s/icons/${icons[label].icon}`}
+                           alt={`${icons[label].name} - ${value}`}/>}<span>{` ${icons[label].name}: ${value}`}</span></>
+        } else {
+            return `${label}: ${value}`
+        }
+    }
+
     useEffect(() => {
             const treeList = []
             let index = 0
             for (const [key, value] of Object.entries(osObj)) {
                 index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={setLabel(key, value)}/>)
             }
             setOsList(treeList)
             setOsLoad(false)
@@ -58,7 +85,7 @@ function S(props) {
             let index = 0
             for (const [key, value] of Object.entries(mobileObj)) {
                 index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={setLabel(key, value)}/>)
             }
             setMobileList(treeList)
             setMobileLoad(false)
@@ -70,7 +97,7 @@ function S(props) {
             let index = 0
             for (const [key, value] of Object.entries(deviceObj)) {
                 index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={setLabel(key, value)}/>)
             }
             setDeviceList(treeList)
             setDeviceLoad(false)
@@ -82,7 +109,7 @@ function S(props) {
             let index = 0
             for (const [key, value] of Object.entries(browserObj)) {
                 index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={setLabel(key, value)}/>)
             }
             setBrowserList(treeList)
             setBrowserLoad(false)

@@ -33,6 +33,7 @@ function S(props) {
         ios: { name: "IOS", icon: "ios.svg" },
         telegram: { name: "Telegram", icon: "telegram.svg" },
         chrome: { name: "Google Chrome", icon: "chrome.svg" },
+        postman: { name: "Postman", icon: "postman.svg" },
         firefox: { name: "Firefox", icon: "firefox.svg" },
         ie: { name: "IE", icon: "ie.svg" },
         opera: { name: "Opera", icon: "opera.svg" },

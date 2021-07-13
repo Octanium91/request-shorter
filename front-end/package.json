@@ -1,5 +1,6 @@
 {
   "name": "front",
+  "homepage": "https://slink.sbs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

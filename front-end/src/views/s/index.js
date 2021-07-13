@@ -23,6 +23,7 @@ function S(props) {
 
     const icons = {
         unknown: { name: "Unknown", icon: "unknown.svg" },
+        undefined: { name: "Undefined", icon: "unknown.svg" },
         unix: { name: "Unix", icon: "linux.svg" },
         pc: { name: "PC", icon: "pc.svg" },
         mac: { name: "Mac", icon: "pc.svg" },

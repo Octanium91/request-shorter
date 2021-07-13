@@ -10,6 +10,7 @@ import {
     Tooltip,
     Typography
 } from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import {findFlagUrlByIso2Code} from "country-flags-svg";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -40,6 +41,7 @@ function S(props) {
 
     const code = useParams().code
     const refIntervalId = useRef(0);
+    const [serviceUpdating, setServiceUpdating] = useState(false)
     const [clicksCount, setClicksCount] = useState(0)
     const [osList, setOsList] = useState([])
     const [osObj, setOsObj] = useState({})
@@ -150,13 +152,21 @@ function S(props) {
     const getStatistic = () => {
         apiService.shortLinkStatClickCount(code).then((req) => {
             if (req.data) {
+                serviceUpdating&&setServiceUpdating(false)
                 setClicksCount(req.data)
+            } else {
+                setServiceUpdating(true)
             }
-        }).catch(() => {
-            clearInterval(refIntervalId.current);
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                props.history.push(`/404/${code}`)
+            } else {
+                setServiceUpdating(true)
+            }
         })
         apiService.clickStatistic(code).then((req) => {
             if (req.data) {
+                serviceUpdating&&setServiceUpdating(false)
                 setCountryObj(req.data.country)
                 setCityObj(req.data.city)
                 setOsObj(req.data.os)
@@ -164,9 +174,15 @@ function S(props) {
                 setBrowserObj(req.data.browser)
                 setDeviceObj(req.data.device)
                 // setLoading(false)
+            } else {
+                setServiceUpdating(true)
             }
-        }).catch(() => {
-            clearInterval(refIntervalId.current);
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                props.history.push(`/404/${code}`)
+            } else {
+                setServiceUpdating(true)
+            }
         })
     }
 
@@ -184,6 +200,10 @@ function S(props) {
         <React.Fragment>
             <Header/>
             <Container maxWidth="sm">
+                {serviceUpdating&&<Alert severity="warning">
+                    <AlertTitle>Service is updating</AlertTitle>
+                    Please wait a bit ...
+                </Alert>}
                 <div>
                     <Typography variant="h4" component="h3">Statistic for: <b>{code}</b></Typography>
                 </div>

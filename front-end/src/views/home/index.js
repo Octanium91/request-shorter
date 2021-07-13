@@ -52,10 +52,6 @@ function Home(props) {
   }
 
   useEffect(() => {
-    console.log("site url", process.env.REACT_APP_APP_URL)
-  }, [])
-
-  useEffect(() => {
     if (clientLink) {
       setShowProtocol(clientLink.toLowerCase().indexOf(`http`) === -1)
     } else {

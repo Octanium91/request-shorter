@@ -6,11 +6,13 @@ import com.requestshorter.frontapi.service.ClientRequestService
 import com.requestshorter.frontapi.service.ShortContentService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 
 @Slf4j
 @RestController
@@ -30,7 +32,7 @@ class ShortContentController {
         if (shortContent) {
             clientRequestService.getCountByShortContent(shortContent.id)
         } else {
-            throw new Exception("ShortContent with code ${code} not found!")
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ShortContent with code ${code} not found!")
         }
     }
 

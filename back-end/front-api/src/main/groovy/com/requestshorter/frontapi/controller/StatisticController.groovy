@@ -7,9 +7,11 @@ import com.requestshorter.frontapi.service.ClientRequestService
 import com.requestshorter.frontapi.service.ShortContentService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 
 @Slf4j
 @RestController
@@ -81,7 +83,7 @@ class StatisticController {
                     os: osMap
             )
         } else {
-            log.warn("Short content ${code} not found!")
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Short content ${code} not found!")
         }
 
     }

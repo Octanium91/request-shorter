@@ -152,7 +152,7 @@ function S(props) {
     const getStatistic = () => {
         apiService.shortLinkStatClickCount(code).then((req) => {
             if (req.data) {
-                serviceUpdating&&setServiceUpdating(false)
+                setServiceUpdating(false)
                 setClicksCount(req.data)
             } else {
                 setServiceUpdating(true)
@@ -166,7 +166,6 @@ function S(props) {
         })
         apiService.clickStatistic(code).then((req) => {
             if (req.data) {
-                serviceUpdating&&setServiceUpdating(false)
                 setCountryObj(req.data.country)
                 setCityObj(req.data.city)
                 setOsObj(req.data.os)
@@ -174,15 +173,8 @@ function S(props) {
                 setBrowserObj(req.data.browser)
                 setDeviceObj(req.data.device)
                 // setLoading(false)
-            } else {
-                setServiceUpdating(true)
             }
-        }).catch((error) => {
-            if (error.response.status === 404) {
-                props.history.push(`/404/${code}`)
-            } else {
-                setServiceUpdating(true)
-            }
+        }).catch(() => {
         })
     }
 
@@ -200,7 +192,7 @@ function S(props) {
         <React.Fragment>
             <Header/>
             <Container maxWidth="sm">
-                {serviceUpdating&&<Alert severity="warning">
+                {serviceUpdating&&<Alert key={`service_update_alert`} severity="warning">
                     <AlertTitle>Service is updating</AlertTitle>
                     Please wait a bit ...
                 </Alert>}

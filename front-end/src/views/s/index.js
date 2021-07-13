@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useState, useRef} from "react";
+import {useParams} from 'react-router-dom';
 import {
     Button,
     Card,
@@ -10,10 +10,10 @@ import {
     Tooltip,
     Typography
 } from '@material-ui/core';
-import { findFlagUrlByIso2Code } from "country-flags-svg";
+import {findFlagUrlByIso2Code} from "country-flags-svg";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { TreeView, TreeItem } from '@material-ui/lab';
+import {TreeView, TreeItem} from '@material-ui/lab';
 import apiService from "../../service/ApiService";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -21,21 +21,21 @@ import Footer from "../../components/footer";
 function S(props) {
 
     const icons = {
-        unknown: { name: "Unknown", icon: "unknown.svg" },
-        unix: { name: "Unix", icon: "linux.svg" },
-        pc: { name: "PC", icon: "pc.svg" },
-        mac: { name: "Mac", icon: "pc.svg" },
-        mobile: { name: "Mobile", icon: "mobile.svg" },
-        iPhone: { name: "iPhone", icon: "iphone.svg" },
-        iPad: { name: "iPad", icon: "ipad.svg" },
-        android: { name: "Android", icon: "android.svg" },
-        ios: { name: "IOS", icon: "ios.svg" },
-        telegram: { name: "Telegram", icon: "telegram.svg" },
-        chrome: { name: "Google Chrome", icon: "chrome.svg" },
-        firefox: { name: "Firefox", icon: "firefox.svg" },
-        ie: { name: "IE", icon: "ie.svg" },
-        opera: { name: "Opera", icon: "opera.svg" },
-        windows: { name: "Windows", icon: "windows.svg" },
+        unknown: {name: "Unknown", icon: "unknown.svg"},
+        unix: {name: "Unix", icon: "linux.svg"},
+        pc: {name: "PC", icon: "pc.svg"},
+        mac: {name: "Mac", icon: "pc.svg"},
+        mobile: {name: "Mobile", icon: "mobile.svg"},
+        iPhone: {name: "iPhone", icon: "iphone.svg"},
+        iPad: {name: "iPad", icon: "ipad.svg"},
+        android: {name: "Android", icon: "android.svg"},
+        ios: {name: "IOS", icon: "ios.svg"},
+        telegram: {name: "Telegram", icon: "telegram.svg"},
+        chrome: {name: "Google Chrome", icon: "chrome.svg"},
+        firefox: {name: "Firefox", icon: "firefox.svg"},
+        ie: {name: "IE", icon: "ie.svg"},
+        opera: {name: "Opera", icon: "opera.svg"},
+        windows: {name: "Windows", icon: "windows.svg"},
     }
 
     const code = useParams().code
@@ -78,7 +78,7 @@ function S(props) {
             setOsList(treeList)
             setOsLoad(false)
         }, // eslint-disable-next-line
-        [ osObj ])
+        [osObj])
 
     useEffect(() => {
             const treeList = []
@@ -90,7 +90,7 @@ function S(props) {
             setMobileList(treeList)
             setMobileLoad(false)
         }, // eslint-disable-next-line
-        [ mobileObj ])
+        [mobileObj])
 
     useEffect(() => {
             const treeList = []
@@ -102,7 +102,7 @@ function S(props) {
             setDeviceList(treeList)
             setDeviceLoad(false)
         }, // eslint-disable-next-line
-        [ deviceObj ])
+        [deviceObj])
 
     useEffect(() => {
             const treeList = []
@@ -114,14 +114,14 @@ function S(props) {
             setBrowserList(treeList)
             setBrowserLoad(false)
         }, // eslint-disable-next-line
-        [ browserObj ])
+        [browserObj])
 
     const createCityTree = (index, country, cityObj) => {
         const treeList = []
         if (cityObj.hasOwnProperty(country)) {
             for (const [key, value] of Object.entries(cityObj[country])) {
                 index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`} />)
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
             }
         }
         return treeList
@@ -133,7 +133,8 @@ function S(props) {
         for (const [key, value] of Object.entries(countryObj)) {
             const flagUrl = findFlagUrlByIso2Code(key)
             index = index + 1
-            treeList.push(<TreeItem key={index} nodeId={index.toString()} label={<>{flagUrl&&<img height={16} src={flagUrl} alt={`${key}`} />}<span>{` ${key}: ${value}`}</span></>}>
+            treeList.push(<TreeItem key={index} nodeId={index.toString()} label={<>{flagUrl &&
+            <img height={16} src={flagUrl} alt={`${key}`}/>}<span>{` ${key}: ${value}`}</span></>}>
                 {createCityTree(index, key, cityObj)}
             </TreeItem>)
         }
@@ -144,7 +145,7 @@ function S(props) {
             setCountyList(createCountryTree(countryObj, cityObj))
             setCountyLoad(false)
         }, // eslint-disable-next-line
-        [ countryObj, cityObj ])
+        [countryObj, cityObj])
 
     const getStatistic = () => {
         apiService.shortLinkStatClickCount(code).then((req) => {
@@ -170,18 +171,18 @@ function S(props) {
     }
 
     useEffect(() => {
-        getStatistic()
-        clearInterval(refIntervalId.current)
-        refIntervalId.current = setInterval(getStatistic, 3000);
-        return () => {
-            clearInterval(refIntervalId.current);
-        };
-    }, // eslint-disable-next-line
+            getStatistic()
+            clearInterval(refIntervalId.current)
+            refIntervalId.current = setInterval(getStatistic, 3000);
+            return () => {
+                clearInterval(refIntervalId.current);
+            };
+        }, // eslint-disable-next-line
         [code])
 
     return (
         <React.Fragment>
-            <Header />
+            <Header/>
             <Container maxWidth="sm">
                 <div>
                     <Typography variant="h4" component="h3">Statistic for: <b>{code}</b></Typography>
@@ -189,67 +190,67 @@ function S(props) {
                 <div className={`Stat-click`}>
                     <Typography variant="h4" component="h3">Total clicks: <b>{clicksCount}</b></Typography>
                 </div>
-                <Card style={{ margin: "4px"}}>
+                <Card style={{margin: "4px"}}>
                     <CardHeader title="Country and city"/>
                     <CardContent>
-                        {!countryLoad?<TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
+                        {!countryLoad ? <TreeView
+                            defaultCollapseIcon={<ExpandMoreIcon/>}
+                            defaultExpandIcon={<ChevronRightIcon/>}
                             multiSelect
                         >
                             {countryList}
-                        </TreeView>:<CircularProgress />}
+                        </TreeView> : <CircularProgress/>}
                     </CardContent>
                 </Card>
-                <Card style={{ margin: "4px"}}>
+                <Card style={{margin: "4px"}}>
                     <CardHeader title="Operating system"/>
                     <CardContent>
-                        {!osLoad?<TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
+                        {!osLoad ? <TreeView
+                            defaultCollapseIcon={<ExpandMoreIcon/>}
+                            defaultExpandIcon={<ChevronRightIcon/>}
                             multiSelect
                         >
                             {osList}
-                        </TreeView>:<CircularProgress />}
+                        </TreeView> : <CircularProgress/>}
                     </CardContent>
                 </Card>
-                <Card style={{ margin: "4px"}}>
+                <Card style={{margin: "4px"}}>
                     <CardHeader title="Device type"/>
                     <CardContent>
-                        {!mobileLoad?<TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
+                        {!mobileLoad ? <TreeView
+                            defaultCollapseIcon={<ExpandMoreIcon/>}
+                            defaultExpandIcon={<ChevronRightIcon/>}
                             multiSelect
                         >
                             {mobileList}
-                        </TreeView>:<CircularProgress />}
+                        </TreeView> : <CircularProgress/>}
                     </CardContent>
                 </Card>
-                <Card style={{ margin: "4px"}}>
+                <Card style={{margin: "4px"}}>
                     <CardHeader title="Device"/>
                     <CardContent>
-                        {!deviceLoad?<TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
+                        {!deviceLoad ? <TreeView
+                            defaultCollapseIcon={<ExpandMoreIcon/>}
+                            defaultExpandIcon={<ChevronRightIcon/>}
                             multiSelect
                         >
                             {deviceList}
-                        </TreeView>:<CircularProgress />}
+                        </TreeView> : <CircularProgress/>}
                     </CardContent>
                 </Card>
-                <Card style={{ margin: "4px"}}>
+                <Card style={{margin: "4px"}}>
                     <CardHeader title="Browser app"/>
                     <CardContent>
-                        {!browserLoad?<TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpandIcon={<ChevronRightIcon />}
+                        {!browserLoad ? <TreeView
+                            defaultCollapseIcon={<ExpandMoreIcon/>}
+                            defaultExpandIcon={<ChevronRightIcon/>}
                             multiSelect
                         >
                             {browserList}
-                        </TreeView>:<CircularProgress />}
+                        </TreeView> : <CircularProgress/>}
                     </CardContent>
                 </Card>
-                <div style={{ marginTop: "30px" }} className={"d-flex justify-content-center"}>
+                <div style={{marginTop: "20px"}} className={"d-flex justify-content-center"}>
                     <Tooltip title="Go to home page" aria-label="Go to home page">
                         <Button variant="contained" color="primary" onClick={() => {
                             props.history.push("/")
@@ -258,12 +259,7 @@ function S(props) {
                         </Button>
                     </Tooltip>
                 </div>
-                {/*<div>*/}
-                {/*    {loading && <span>Loading ...</span>}*/}
-                {/*    {!loading && <StatItem title={"Country"} data={countryList} />}*/}
-                {/*    {!loading && <StatItem title={"Operating system"} data={osList} />}*/}
-                {/*</div>*/}
-                <Footer />
+                <Footer/>
             </Container>
         </React.Fragment>
     )

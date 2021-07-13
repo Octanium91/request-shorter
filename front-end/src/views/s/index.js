@@ -22,21 +22,21 @@ import Footer from "../../components/footer";
 function S(props) {
 
     const icons = {
-        unknown: {name: "Unknown", icon: "unknown.svg"},
-        unix: {name: "Unix", icon: "linux.svg"},
-        pc: {name: "PC", icon: "pc.svg"},
-        mac: {name: "Mac", icon: "pc.svg"},
-        mobile: {name: "Mobile", icon: "mobile.svg"},
-        iPhone: {name: "iPhone", icon: "iphone.svg"},
-        iPad: {name: "iPad", icon: "ipad.svg"},
-        android: {name: "Android", icon: "android.svg"},
-        ios: {name: "IOS", icon: "ios.svg"},
-        telegram: {name: "Telegram", icon: "telegram.svg"},
-        chrome: {name: "Google Chrome", icon: "chrome.svg"},
-        firefox: {name: "Firefox", icon: "firefox.svg"},
-        ie: {name: "IE", icon: "ie.svg"},
-        opera: {name: "Opera", icon: "opera.svg"},
-        windows: {name: "Windows", icon: "windows.svg"},
+        unknown: { name: "Unknown", icon: "unknown.svg" },
+        unix: { name: "Unix", icon: "linux.svg" },
+        pc: { name: "PC", icon: "pc.svg" },
+        mac: { name: "Mac", icon: "pc.svg" },
+        mobile: { name: "Mobile", icon: "mobile.svg" },
+        iPhone: { name: "iPhone", icon: "iphone.svg" },
+        iPad: { name: "iPad", icon: "ipad.svg" },
+        android: { name: "Android", icon: "android.svg" },
+        ios: { name: "IOS", icon: "ios.svg" },
+        telegram: { name: "Telegram", icon: "telegram.svg" },
+        chrome: { name: "Google Chrome", icon: "chrome.svg" },
+        firefox: { name: "Firefox", icon: "firefox.svg" },
+        ie: { name: "IE", icon: "ie.svg" },
+        opera: { name: "Opera", icon: "opera.svg" },
+        windows: { name: "Windows", icon: "windows.svg" }
     }
 
     const code = useParams().code
@@ -123,7 +123,7 @@ function S(props) {
         if (cityObj.hasOwnProperty(country)) {
             for (const [key, value] of Object.entries(cityObj[country])) {
                 index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={`${key}: ${value}`}/>)
+                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={(icons.hasOwnProperty(key))?`${icons.hasOwnProperty(key).name}: ${value}`:`${key}: ${value}`}/>)
             }
         }
         return treeList
@@ -136,7 +136,7 @@ function S(props) {
             const flagUrl = findFlagUrlByIso2Code(key)
             index = index + 1
             treeList.push(<TreeItem key={index} nodeId={index.toString()} label={<>{flagUrl &&
-            <img height={16} src={flagUrl} alt={`${key}`}/>}<span>{` ${key}: ${value}`}</span></>}>
+            <img height={16} src={flagUrl} alt={`${key}`}/>}<span>{(icons.hasOwnProperty(key))?` ${icons.hasOwnProperty(key).name}: ${value}`:` ${key}: ${value}`}</span></>}>
                 {createCityTree(index, key, cityObj)}
             </TreeItem>)
         }

@@ -1,7 +1,9 @@
 import React, { Suspense } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
+import 'typeface-roboto';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { routes } from "./routes";
-import Loading from "./components/suspenseLoding"
+import Loading from "./components/suspenseLoding";
 
 function App() {
 

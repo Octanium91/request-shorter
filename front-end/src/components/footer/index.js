@@ -14,7 +14,7 @@ class Footer extends Component {
                 <Card style={{ margin: "5px" }}>
                     <CardContent>
                         <Typography>Developed by Octanium91</Typography>
-                        <Typography><b>Website: </b><Link href="https://octanium91.github.io/" target="_blank">octanium91.github.io</Link></Typography>
+                        <Typography><b>Website: </b><Link href="https://octanium91.github.io/" rel="noreferrer" target="_blank">octanium91.github.io</Link></Typography>
                     </CardContent>
                 </Card>
             </>

@@ -22,12 +22,18 @@ import apiService from "../../service/ApiService";
 function Home(props) {
 
   const [createLinkLoading, setCreateLinkLoading] = useState(false)
+  const [createLinkDisabled, setCreateLinkDisabled] = useState(true)
   const [showProtocol, setShowProtocol] = useState(false)
   const [clientLink, setClientLink] = useState('');
   const [createdLink, setCreatedLink] = useState('')
   const [linkProtocol, setLinkProtocol] = useState(`HTTPS`)
 
   const handlerLinkOnChange = (event) => {
+    if (event.target.value) {
+      setCreateLinkDisabled(false)
+    } else {
+      setCreateLinkDisabled(true)
+    }
     setClientLink(event.target.value)
   }
 
@@ -81,7 +87,7 @@ function Home(props) {
                 <Input defaultValue={clientLink} placeholder={'https://exemple.com/AKSHGDKSAGDG'} style={{width: `${showProtocol?85:100}%` }} onChange={handlerLinkOnChange}/>
               </Grid>
               <Grid item>
-                <Button variant="outlined" disabled={createLinkLoading} startIcon={createLinkLoading&&<CircularProgress color="inherit" size={16} />} onClick={handlerCreateOnClick}>Create link!</Button>
+                <Button variant="outlined" disabled={createLinkDisabled?createLinkDisabled:createLinkLoading} startIcon={createLinkLoading&&<CircularProgress color="inherit" size={16} />} onClick={handlerCreateOnClick}>Create link!</Button>
               </Grid>
             </Grid>
             {createdLink&&<React.Fragment>

@@ -27,6 +27,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./java/entity-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+      - ./files:/gjava/files
       - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
@@ -52,6 +53,7 @@ services:
     restart: unless-stopped
     volumes:
        - ./java/front-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+       - ./files:/gjava/files
        - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
@@ -77,6 +79,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./java/scheduler-0.0.1-SNAPSHOT.jar:/gjava/java.jar
+      - ./files:/gjava/files
       - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod

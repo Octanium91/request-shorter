@@ -3,6 +3,7 @@ package com.requestshorter.frontapi.controller
 import com.requestshorter.frontapi.data.domains.ShortContent
 import com.requestshorter.frontapi.model.shortContent.ShortContentCreateDto
 import com.requestshorter.frontapi.service.ClientRequestService
+import com.requestshorter.frontapi.service.GeoLite2Service
 import com.requestshorter.frontapi.service.ShortContentService
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,10 +21,16 @@ class ShortContentController {
 
     @Autowired private ShortContentService shortContentService
     @Autowired private ClientRequestService clientRequestService
+    @Autowired private GeoLite2Service geoLite2Service
 
     @PutMapping("/api/shortContent/create")
     String createShortContent(@RequestBody ShortContentCreateDto shortContentCreateDto) {
         shortContentService.createLink(shortContentCreateDto.link)
+    }
+
+    @GetMapping("/api/shortContent/geo")
+    void geo() {
+        geoLite2Service.update()
     }
 
     @GetMapping("/api/shortContent/statistic/count")

@@ -28,11 +28,8 @@ import java.net.http.HttpResponse
 @Service
 class ClientRequestService {
 
-    @Value('${geoLiteCountryDataBase}')
-    private final String geoLiteCountryDataBase = ''
-    @Value('${geoLiteCityDataBase}')
-    private final String geoLiteCityDataBase = ''
     @Autowired ClientRequestRepository clientRequestRepository
+    @Autowired GeoLite2Service geoLite2Service
 
     private List<String> listAlpha2CountryCode = [
             "AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX",
@@ -265,8 +262,8 @@ class ClientRequestService {
         GeoIP2Response geoIP2Response = new GeoIP2Response()
         try {
 
-            File databaseCountry = new File(geoLiteCountryDataBase)
-            File databaseCity = new File(geoLiteCityDataBase)
+            File databaseCountry = new File(geoLite2Service.getDBPathString("GeoLite2-Country"))
+            File databaseCity = new File(geoLite2Service.getDBPathString("GeoLite2-City"))
             DatabaseReader CountryReader = new DatabaseReader.Builder(databaseCountry).build();
             DatabaseReader CityReader = new DatabaseReader.Builder(databaseCity).build();
             InetAddress ipAddress = InetAddress.getByName(ip);

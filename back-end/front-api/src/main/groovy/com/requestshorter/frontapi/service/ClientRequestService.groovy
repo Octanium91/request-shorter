@@ -15,7 +15,6 @@ import com.requestshorter.frontapi.model.clientRequest.ClientRequestUserAgentInf
 import com.requestshorter.frontapi.model.geoIP2.GeoIP2Response
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import com.requestshorter.frontapi.Utils.UAgentInfo
 

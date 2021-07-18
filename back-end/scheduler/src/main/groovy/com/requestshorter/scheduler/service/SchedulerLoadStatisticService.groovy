@@ -26,13 +26,14 @@ class SchedulerLoadStatisticService {
                 GeoIP2Response geoIP2Response = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress)
                 countryCode = (geoIP2Response.countryIso !== "unknown")?geoIP2Response.countryIso:''
                 cityName = geoIP2Response.cityIso
-                if (!countryCode) {
-                    ClientRequestIPAPIInfoDto IPAPIInfo = clientRequestService.defineCountryByIPProvIPAIP(it.ipAddress)
-                    countryCode = IPAPIInfo.country_code
-                    if (!countryCode) {
-                        countryCode = clientRequestService.defineCountryByIPProvIPGeo(it.ipAddress)
-                    }
-                }
+                // disable API detect
+//                if (!countryCode) {
+//                    ClientRequestIPAPIInfoDto IPAPIInfo = clientRequestService.defineCountryByIPProvIPAIP(it.ipAddress)
+//                    countryCode = IPAPIInfo.country_code
+//                    if (!countryCode) {
+//                        countryCode = clientRequestService.defineCountryByIPProvIPGeo(it.ipAddress)
+//                    }
+//                }
             }
             if (it.userAgent) {
                 userAgentInfo = clientRequestService.userAgentInfo(it.userAgent)

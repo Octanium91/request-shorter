@@ -271,15 +271,11 @@ class ClientRequestService {
             if (!ASNReader) {
                 ASNReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-ASN"))).build()
             }
-//            if (!CountryReader) {
-//                CountryReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-Country"))).build()
-//            }
             if (!CityReader) {
                 CityReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-City"))).build()
             }
             InetAddress ipAddress = InetAddress.getByName(ip)
             AsnResponse asnResponse = ASNReader.asn(ipAddress)
-//            CountryResponse countryResponse = CountryReader.country(ipAddress)
             CityResponse cityResponse = CityReader.city(ipAddress)
             Country country = cityResponse.getCountry()
             City city = cityResponse.getCity()

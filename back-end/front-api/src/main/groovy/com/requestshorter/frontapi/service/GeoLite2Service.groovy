@@ -3,6 +3,7 @@ package com.requestshorter.frontapi.service
 import groovy.util.logging.Slf4j
 import org.apache.tools.tar.TarEntry
 import org.apache.tools.tar.TarInputStream
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 import java.nio.file.Files
@@ -12,7 +13,8 @@ import java.util.zip.GZIPInputStream
 @Service
 class GeoLite2Service {
 
-    private String licKey = "mPbDQDtjRDCvW5j3"
+    @Value('${maxmindLicKey}')
+    private final String licKey = ""
     private String maxmindFolder = "./files/maxmind"
 
     private static void untar(String tarFile, File dest) throws IOException {

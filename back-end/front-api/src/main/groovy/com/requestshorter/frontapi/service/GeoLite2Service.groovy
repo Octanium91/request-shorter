@@ -56,6 +56,7 @@ class GeoLite2Service {
         try {
             new URL("https://download.maxmind.com/app/geoip_download?edition_id=${editionId}&license_key=${licKey}&suffix=tar.gz.sha256").getText().split()[0]
         } catch(e) {
+            log.warn("Maxmind GeoLite2: failed to get SHA-256 of ${editionId}, '${"https://download.maxmind.com/app/geoip_download?edition_id=${editionId}&license_key=${licKey}&suffix=tar.gz.sha256"}'")
             null
         }
     }
@@ -64,6 +65,7 @@ class GeoLite2Service {
         try {
             new URL("https://download.maxmind.com/app/geoip_download?edition_id=${editionId}&license_key=${licKey}&suffix=tar.gz").getBytes()
         } catch(e) {
+            log.warn("Maxmind GeoLite2: failed to get database archive (tar.gz) of ${editionId}, '${"https://download.maxmind.com/app/geoip_download?edition_id=${editionId}&license_key=${licKey}&suffix=tar.gz"}'")
             null
         }
     }

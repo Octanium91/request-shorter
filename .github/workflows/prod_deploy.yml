@@ -56,8 +56,8 @@ jobs:
         run: ./gradlew scheduler:bootJar
       - name: Move libs file
         run: mv ./back-end/build/libs/*.jar ./infrastructure/deploy/java/
-      - name: Move GeoLite2 file
-        run: mv ./infrastructure/GeoLite2/ ./infrastructure/deploy/GeoLite2/
+#       - name: Move GeoLite2 file
+#         run: mv ./infrastructure/GeoLite2/ ./infrastructure/deploy/GeoLite2/
       - name: Copy on machine
         uses: easingthemes/ssh-deploy@v2.1.5
       - name: Make PROD directory

@@ -24,6 +24,8 @@ class SchedulerLoadStatisticService {
             ClientRequestUserAgentInfoDto userAgentInfo = new ClientRequestUserAgentInfoDto()
             if (it.ipAddress) {
                 GeoIP2Response geoIP2Response = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress)
+                it.autonomousSystemNumber = geoIP2Response.autonomousSystemNumber
+                it.autonomousSystemOrganization = geoIP2Response.autonomousSystemOrganization
                 countryCode = (geoIP2Response.countryIso !== "unknown")?geoIP2Response.countryIso:''
                 cityName = geoIP2Response.cityIso
                 // disable API detect

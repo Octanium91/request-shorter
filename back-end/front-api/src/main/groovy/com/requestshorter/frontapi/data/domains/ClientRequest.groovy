@@ -38,6 +38,10 @@ class ClientRequest {
 
     String operatingSystem = "unknown"
 
+    String autonomousSystemOrganization = "unknown"
+
+    Integer autonomousSystemNumber = 0
+
     @Version
     long version
 

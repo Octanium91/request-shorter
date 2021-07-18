@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./java/entity-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
-      - ./files:/gjava/files
+      - ../files:/gjava/files
       - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
@@ -35,7 +35,7 @@ services:
       spring_data_mongodb_host: mongodb
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
       geoLiteCityDataBase: //gjava//GeoLite2//GeoLite2-City//GeoLite2-City.mmdb
-    command: /bin/bash -c "chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
+    command: /bin/bash -c "cd /gjava && chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
     ports:
       - "127.0.0.1:1103:8667"
     logging:
@@ -53,7 +53,7 @@ services:
     restart: unless-stopped
     volumes:
        - ./java/front-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
-       - ./files:/gjava/files
+       - ../files:/gjava/files
        - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
@@ -61,7 +61,7 @@ services:
       spring_data_mongodb_host: mongodb
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
       geoLiteCityDataBase: //gjava//GeoLite2//GeoLite2-City//GeoLite2-City.mmdb
-    command: /bin/bash -c "chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
+    command: /bin/bash -c "cd /gjava && chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
     ports:
       - "127.0.0.1:1102:8666"
     logging:
@@ -79,7 +79,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./java/scheduler-0.0.1-SNAPSHOT.jar:/gjava/java.jar
-      - ./files:/gjava/files
+      - ../files:/gjava/files
       - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
@@ -87,7 +87,7 @@ services:
       spring_data_mongodb_host: mongodb
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
       geoLiteCityDataBase: //gjava//GeoLite2//GeoLite2-City//GeoLite2-City.mmdb
-    command: /bin/bash -c "chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
+    command: /bin/bash -c "cd /gjava && chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
     logging:
       driver: "json-file"
       options:

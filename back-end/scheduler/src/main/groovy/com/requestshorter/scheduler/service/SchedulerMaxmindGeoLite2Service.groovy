@@ -13,7 +13,7 @@ class SchedulerMaxmindGeoLite2Service {
 
     @Autowired private GeoLite2Service geoLite2Service
 
-    @Scheduled(fixedDelay = 20000L, initialDelay = 500L)
+    @Scheduled(fixedDelay = 43200000L, initialDelay = 500L)
     private void defaultScheduler() {
         String sha256City = geoLite2Service.getSha256("GeoLite2-City")
         if (sha256City) {

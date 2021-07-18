@@ -69,28 +69,28 @@ class GeoLite2Service {
     }
 
     boolean sha256IsExist(String editionId, String sha256) {
-        new File("${maxmindFolder}/geoLite2/${editionId}/${sha256}").exists()
+        new File("${maxmindFolder}/geoip/${editionId}/${sha256}").exists()
     }
 
     void updateDb(String editionId, String sha256) {
-        File dbFolder = new File("${maxmindFolder}/geoLite2/${editionId}/${sha256}")
+        File dbFolder = new File("${maxmindFolder}/geoip/${editionId}/${sha256}")
         if (!dbFolder.exists()) {
             dbFolder.mkdirs()
         }
         byte[] file = getFileTarGz(editionId)
-        File disFile = new File("${maxmindFolder}/geoLite2/${editionId}/${sha256}/dis.tar.gz")
+        File disFile = new File("${maxmindFolder}/geoip/${editionId}/${sha256}/dis.tar.gz")
         if (disFile.exists()) {
             disFile.delete()
         }
         Files.write(disFile.toPath(), file)
         String disFileSha256 = disFile.getBytes().digest('SHA-256')
         if (sha256 == disFileSha256) {
-            untar("${maxmindFolder}/geoLite2/${editionId}/${sha256}/dis.tar.gz", dbFolder)
+            untar("${maxmindFolder}/geoip/${editionId}/${sha256}/dis.tar.gz", dbFolder)
             disFile.delete()
-            File dbFile = new File("${maxmindFolder}/geoLite2/${editionId}/${sha256}/${editionId}.mmdb")
+            File dbFile = new File("${maxmindFolder}/geoip/${editionId}/${sha256}/${editionId}.mmdb")
             if (dbFile.exists()) {
                 try {
-                    File dbsFolder = new File("${maxmindFolder}/geoLite2/${editionId}")
+                    File dbsFolder = new File("${maxmindFolder}/geoip/${editionId}")
                     dbsFolder.listFiles().each {
                         if (it.getName() != sha256) {
                             it.deleteDir()
@@ -113,8 +113,8 @@ class GeoLite2Service {
 
     String getDBPathString(String editionId) {
         try {
-            String firstSha256 = new File("${maxmindFolder}/geoLite2/${editionId}").listFiles()[0].getName()
-            File dbFile = new File("${maxmindFolder}/geoLite2/${editionId}/${firstSha256}/${editionId}.mmdb")
+            String firstSha256 = new File("${maxmindFolder}/geoip/${editionId}").listFiles()[0].getName()
+            File dbFile = new File("${maxmindFolder}/geoip/${editionId}/${firstSha256}/${editionId}.mmdb")
             if (dbFile.exists()) {
                 dbFile.path
             } else {
@@ -124,21 +124,5 @@ class GeoLite2Service {
             null
         }
     }
-
-//    void update() {
-//        String sha256 = getSha256("GeoLite2-City")
-//        if (sha256) {
-//            File dbFolder = new File("${maxmindFolder}/geoLite2/${"GeoLite2-City"}/${sha256}")
-//            if (sha256IsExist("GeoLite2-City", sha256)) {
-//                updateDb("GeoLite2-City", sha256)
-//                log.info("Folder exist!", sha256)
-//            } else {
-//                dbFolder.mkdirs()
-//                new URL("https://download.maxmind.com/app/geoip_download?edition_id=${"GeoLite2-City"}&license_key=${licKey}&suffix=tar.gz")
-//                log.info("Folder not found", sha256)
-//            }
-//            log.info("asdasd", sha256)
-//        }
-//    }
 
 }

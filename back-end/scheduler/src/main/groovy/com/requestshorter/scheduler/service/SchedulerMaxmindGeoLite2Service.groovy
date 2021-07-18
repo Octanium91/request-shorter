@@ -15,6 +15,14 @@ class SchedulerMaxmindGeoLite2Service {
 
     @Scheduled(fixedDelay = 43200000L, initialDelay = 500L)
     private void defaultScheduler() {
+        String sha256ASN = geoLite2Service.getSha256("GeoLite2-ASN")
+        if (sha256ASN) {
+            if (geoLite2Service.sha256IsExist("GeoLite2-ASN", sha256ASN)) {
+                log.info("Maxmind GeoLite2: Database GeoLite2-ASN not need update!")
+            } else {
+                geoLite2Service.updateDb("GeoLite2-ASN", sha256ASN)
+            }
+        }
         String sha256City = geoLite2Service.getSha256("GeoLite2-City")
         if (sha256City) {
             if (geoLite2Service.sha256IsExist("GeoLite2-City", sha256City)) {

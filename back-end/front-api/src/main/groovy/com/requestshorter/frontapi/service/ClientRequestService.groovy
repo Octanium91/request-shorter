@@ -59,6 +59,13 @@ class ClientRequestService {
         if (!ipAddress) {
             ipAddress = request.getRemoteAddr()
         }
+        if (ipAddress) {
+            try {
+                ipAddress = ipAddress.split()[0].replace(",","")
+            } catch(e) {
+
+            }
+        }
         String userAgent = request.getHeader( "X-User-Agent")
         if (!userAgent) {
             userAgent = request.getHeader( "User-Agent")

@@ -31,14 +31,14 @@ class SchedulerMaxmindGeoLite2Service {
                 geoLite2Service.updateDb("GeoLite2-City", sha256City)
             }
         }
-        String sha256Country = geoLite2Service.getSha256("GeoLite2-Country")
-        if (sha256Country) {
-            if (geoLite2Service.sha256IsExist("GeoLite2-Country", sha256Country)) {
-                log.info("Maxmind GeoLite2: Database GeoLite2-Country not need update!")
-            } else {
-                geoLite2Service.updateDb("GeoLite2-Country", sha256Country)
-            }
-        }
+//        String sha256Country = geoLite2Service.getSha256("GeoLite2-Country")
+//        if (sha256Country) {
+//            if (geoLite2Service.sha256IsExist("GeoLite2-Country", sha256Country)) {
+//                log.info("Maxmind GeoLite2: Database GeoLite2-Country not need update!")
+//            } else {
+//                geoLite2Service.updateDb("GeoLite2-Country", sha256Country)
+//            }
+//        }
     }
 
 }

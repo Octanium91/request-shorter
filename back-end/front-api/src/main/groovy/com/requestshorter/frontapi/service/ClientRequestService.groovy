@@ -264,24 +264,24 @@ class ClientRequestService {
         ret
     }
 
-    GeoIP2Response defineCountryByIPProvGeoIP2(String ip, DatabaseReader ASNReader = null, DatabaseReader CountryReader = null, DatabaseReader CityReader = null) {
+    GeoIP2Response defineCountryByIPProvGeoIP2(String ip, DatabaseReader ASNReader = null, DatabaseReader CityReader = null) {
         log.info("Define country by IP use GeoIP2")
         GeoIP2Response geoIP2Response = new GeoIP2Response()
         try {
             if (!ASNReader) {
                 ASNReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-ASN"))).build()
             }
-            if (!CountryReader) {
-                CountryReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-Country"))).build()
-            }
+//            if (!CountryReader) {
+//                CountryReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-Country"))).build()
+//            }
             if (!CityReader) {
                 CityReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-City"))).build()
             }
             InetAddress ipAddress = InetAddress.getByName(ip)
             AsnResponse asnResponse = ASNReader.asn(ipAddress)
-            CountryResponse countryResponse = CountryReader.country(ipAddress)
+//            CountryResponse countryResponse = CountryReader.country(ipAddress)
             CityResponse cityResponse = CityReader.city(ipAddress)
-            Country country = countryResponse.getCountry()
+            Country country = cityResponse.getCountry()
             City city = cityResponse.getCity()
             geoIP2Response.autonomousSystemNumber = asnResponse.getAutonomousSystemNumber()
             geoIP2Response.autonomousSystemOrganization = asnResponse.getAutonomousSystemOrganization()

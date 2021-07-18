@@ -113,24 +113,24 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           passphrase: ''
           privateKey: ${{ secrets.DEPLOY_KEY}}
-      - name: Replace GeoLite2 [1/2]
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: mkdir -p /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/GeoLite2/
-          host: ${{ secrets.DEPLOY_HOST }}
-          port: ${{ secrets.DEPLOY_PORT }}
-          username: ${{ secrets.DEPLOY_USER }}
-          passphrase: ''
-          privateKey: ${{ secrets.DEPLOY_KEY}}     
-      - name: Replace GeoLite2 [2/2]
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: cp -rf /root/app/deploy-${{env.MODE}}/GeoLite2/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/GeoLite2/
-          host: ${{ secrets.DEPLOY_HOST }}
-          port: ${{ secrets.DEPLOY_PORT }}
-          username: ${{ secrets.DEPLOY_USER }}
-          passphrase: ''
-          privateKey: ${{ secrets.DEPLOY_KEY}}  
+#       - name: Replace GeoLite2 [1/2]
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: mkdir -p /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/GeoLite2/
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}}     
+#       - name: Replace GeoLite2 [2/2]
+#         uses: garygrossgarten/github-action-ssh@release
+#         with:
+#           command: cp -rf /root/app/deploy-${{env.MODE}}/GeoLite2/* /root/app/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/GeoLite2/
+#           host: ${{ secrets.DEPLOY_HOST }}
+#           port: ${{ secrets.DEPLOY_PORT }}
+#           username: ${{ secrets.DEPLOY_USER }}
+#           passphrase: ''
+#           privateKey: ${{ secrets.DEPLOY_KEY}}  
       - name: Replace front [1/2]
         uses: garygrossgarten/github-action-ssh@release
         with:

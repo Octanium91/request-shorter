@@ -3,6 +3,7 @@ package com.requestshorter.frontapi.service
 import com.axlabs.ip2asn2cc.Ip2Asn2Cc
 import com.axlabs.ip2asn2cc.model.FilterPolicy
 import com.maxmind.geoip2.DatabaseReader
+import com.maxmind.geoip2.model.AsnResponse
 import com.maxmind.geoip2.model.CityResponse
 import com.maxmind.geoip2.model.CountryResponse
 import com.maxmind.geoip2.record.City
@@ -263,19 +264,27 @@ class ClientRequestService {
         ret
     }
 
-    GeoIP2Response defineCountryByIPProvGeoIP2(String ip) {
+    GeoIP2Response defineCountryByIPProvGeoIP2(String ip, DatabaseReader ASNReader = null, DatabaseReader CountryReader = null, DatabaseReader CityReader = null) {
         log.info("Define country by IP use GeoIP2")
         GeoIP2Response geoIP2Response = new GeoIP2Response()
         try {
-            File databaseCountry = new File(geoLite2Service.getDBPathString("GeoLite2-Country"))
-            File databaseCity = new File(geoLite2Service.getDBPathString("GeoLite2-City"))
-            DatabaseReader CountryReader = new DatabaseReader.Builder(databaseCountry).build();
-            DatabaseReader CityReader = new DatabaseReader.Builder(databaseCity).build();
-            InetAddress ipAddress = InetAddress.getByName(ip);
-            CountryResponse CountryResponse = CountryReader.country(ipAddress)
-            CityResponse CityResponse = CityReader.city(ipAddress)
-            Country country = CountryResponse.getCountry()
-            City city = CityResponse.getCity()
+            if (!ASNReader) {
+                ASNReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-ASN"))).build()
+            }
+            if (!CountryReader) {
+                CountryReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-Country"))).build()
+            }
+            if (!CityReader) {
+                CityReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-City"))).build()
+            }
+            InetAddress ipAddress = InetAddress.getByName(ip)
+            AsnResponse asnResponse = ASNReader.asn(ipAddress)
+            CountryResponse countryResponse = CountryReader.country(ipAddress)
+            CityResponse cityResponse = CityReader.city(ipAddress)
+            Country country = countryResponse.getCountry()
+            City city = cityResponse.getCity()
+            geoIP2Response.autonomousSystemNumber = asnResponse.getAutonomousSystemNumber()
+            geoIP2Response.autonomousSystemOrganization = asnResponse.getAutonomousSystemOrganization()
             geoIP2Response.countryIso = country.getIsoCode()
             geoIP2Response.cityIso = city.getName()
         } catch(e) {

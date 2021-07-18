@@ -267,7 +267,6 @@ class ClientRequestService {
         log.info("Define country by IP use GeoIP2")
         GeoIP2Response geoIP2Response = new GeoIP2Response()
         try {
-
             File databaseCountry = new File(geoLite2Service.getDBPathString("GeoLite2-Country"))
             File databaseCity = new File(geoLite2Service.getDBPathString("GeoLite2-City"))
             DatabaseReader CountryReader = new DatabaseReader.Builder(databaseCountry).build();

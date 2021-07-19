@@ -1,11 +1,13 @@
 package com.requestshorter.frontapi.service
 
+import com.maxmind.geoip2.DatabaseReader
 import groovy.util.logging.Slf4j
 import org.apache.tools.tar.TarEntry
 import org.apache.tools.tar.TarInputStream
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
+import javax.annotation.PostConstruct
 import java.nio.file.Files
 import java.util.zip.GZIPInputStream
 
@@ -16,6 +18,20 @@ class GeoLite2Service {
     @Value('${maxmindLicKey}')
     private final String licKey = ""
     private String maxmindFolder = "./files/maxmind"
+    DatabaseReader asnReader = null
+    DatabaseReader cityReader = null
+
+    @PostConstruct
+    private void postInit() {
+        String asnDBPath = getDBPathString("GeoLite2-ASN")
+        if (asnDBPath) {
+            asnReader = new DatabaseReader.Builder(new File(asnDBPath)).build()
+        }
+        String cityDBPath = getDBPathString("GeoLite2-City")
+        if (cityDBPath) {
+            cityReader = new DatabaseReader.Builder(new File(cityDBPath)).build()
+        }
+    }
 
     private static void untar(String tarFile, File dest) throws IOException {
 
@@ -91,6 +107,12 @@ class GeoLite2Service {
             disFile.delete()
             File dbFile = new File("${maxmindFolder}/geoip/${editionId}/${sha256}/${editionId}.mmdb")
             if (dbFile.exists()) {
+                if (editionId == "GeoLite2-ASN") {
+                    asnReader = new DatabaseReader.Builder(dbFile).build()
+                }
+                if (editionId == "GeoLite2-City") {
+                    cityReader = new DatabaseReader.Builder(dbFile).build()
+                }
                 try {
                     File dbsFolder = new File("${maxmindFolder}/geoip/${editionId}")
                     dbsFolder.listFiles().each {

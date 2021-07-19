@@ -1,9 +1,9 @@
 package com.requestshorter.scheduler.service
 
-import com.requestshorter.frontapi.model.clientRequest.ClientRequestIPAPIInfoDto
 import com.requestshorter.frontapi.model.clientRequest.ClientRequestUserAgentInfoDto
 import com.requestshorter.frontapi.model.geoIP2.GeoIP2Response
 import com.requestshorter.frontapi.service.ClientRequestService
+import com.requestshorter.frontapi.service.GeoLite2Service
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service
 class SchedulerLoadStatisticService {
 
     @Autowired private ClientRequestService clientRequestService
+    @Autowired private GeoLite2Service geoLite2Service
 
     @Scheduled(fixedDelay = 1000L)
     private void defaultScheduler() {
@@ -23,7 +24,7 @@ class SchedulerLoadStatisticService {
             String cityName = ""
             ClientRequestUserAgentInfoDto userAgentInfo = new ClientRequestUserAgentInfoDto()
             if (it.ipAddress) {
-                GeoIP2Response geoIP2Response = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress)
+                GeoIP2Response geoIP2Response = clientRequestService.defineCountryByIPProvGeoIP2(it.ipAddress, geoLite2Service.asnReader, geoLite2Service.cityReader)
                 it.autonomousSystemNumber = geoIP2Response.autonomousSystemNumber
                 it.autonomousSystemOrganization = geoIP2Response.autonomousSystemOrganization
                 countryCode = (geoIP2Response.countryIso !== "unknown")?geoIP2Response.countryIso:''

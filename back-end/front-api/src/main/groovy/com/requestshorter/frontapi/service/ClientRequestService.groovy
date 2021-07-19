@@ -269,9 +269,11 @@ class ClientRequestService {
         GeoIP2Response geoIP2Response = new GeoIP2Response()
         try {
             if (!ASNReader) {
+                log.warn("ASN reader is NULL, create reader...")
                 ASNReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-ASN"))).build()
             }
             if (!CityReader) {
+                log.warn("City reader is NULL, create reader...")
                 CityReader = new DatabaseReader.Builder(new File(geoLite2Service.getDBPathString("GeoLite2-City"))).build()
             }
             InetAddress ipAddress = InetAddress.getByName(ip)

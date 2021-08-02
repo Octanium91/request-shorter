@@ -20,8 +20,8 @@ class Footer extends Component {
                 </Card>
                 <Card style={{ marginTop: "15px", marginRight: "5px", marginLeft: "5px" }}>
                     <CardContent>
-                        <Typography className={"d-flex  justify-content-center"}><b>GitHub</b></Typography>
-                        <div className={"d-flex  justify-content-center"}>
+                        <Typography className={"d-flex justify-content-center"}><b>GitHub</b></Typography>
+                        <div className={"d-flex justify-content-center"}>
                             <div style={{margin: "5px"}}>
                                 <GitHubButton href="https://github.com/Octanium91/request-shorter" data-size="large"
                                               aria-label="Source Code">Source Code</GitHubButton>

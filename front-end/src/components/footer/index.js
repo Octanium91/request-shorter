@@ -27,18 +27,9 @@ class Footer extends Component {
                                               aria-label="Source Code">Source Code</GitHubButton>
                             </div>
                             <div style={{margin: "5px"}}>
-                                <GitHubButton href="https://github.com/octanium91" data-size="large"
-                                              aria-label="Follow @octanium91 on GitHub">Follow</GitHubButton>
-                            </div>
-                            <div style={{margin: "5px"}}>
                                 <GitHubButton href="https://github.com/octanium91/request-shorter/subscription"
                                               data-icon="octicon-eye" data-size="large"
                                               aria-label="Watch octanium91/request-shorter on GitHub">Watch</GitHubButton>
-                            </div>
-                            <div style={{margin: "5px"}}>
-                                <GitHubButton href="https://github.com/octanium91/request-shorter"
-                                              data-icon="octicon-star" data-size="large"
-                                              aria-label="Star octanium91/request-shorter on GitHub">Star</GitHubButton>
                             </div>
                             <div style={{margin: "5px"}}>
                                 <GitHubButton href="https://github.com/sponsors/octanium91" data-icon="octicon-heart"

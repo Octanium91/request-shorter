@@ -48,9 +48,9 @@ function S(props) {
     const [osList, setOsList] = useState([])
     const [osObj, setOsObj] = useState({})
     const [osLoad, setOsLoad] = useState(true)
-    const [deviceList, setDeviceList] = useState([])
-    const [deviceObj, setDeviceObj] = useState({})
-    const [deviceLoad, setDeviceLoad] = useState(true)
+    // const [deviceList, setDeviceList] = useState([])
+    // const [deviceObj, setDeviceObj] = useState({})
+    // const [deviceLoad, setDeviceLoad] = useState(true)
     const [mobileList, setMobileList] = useState([])
     const [mobileObj, setMobileObj] = useState({})
     const [mobileLoad, setMobileLoad] = useState(true)
@@ -96,17 +96,17 @@ function S(props) {
         }, // eslint-disable-next-line
         [mobileObj])
 
-    useEffect(() => {
-            const treeList = []
-            let index = 0
-            for (const [key, value] of Object.entries(deviceObj)) {
-                index = index + 1
-                treeList.push(<TreeItem key={index} nodeId={index.toString()} label={setLabel(key, value)}/>)
-            }
-            setDeviceList(treeList)
-            setDeviceLoad(false)
-        }, // eslint-disable-next-line
-        [deviceObj])
+    // useEffect(() => {
+    //         const treeList = []
+    //         let index = 0
+    //         for (const [key, value] of Object.entries(deviceObj)) {
+    //             index = index + 1
+    //             treeList.push(<TreeItem key={index} nodeId={index.toString()} label={setLabel(key, value)}/>)
+    //         }
+    //         setDeviceList(treeList)
+    //         setDeviceLoad(false)
+    //     }, // eslint-disable-next-line
+    //     [deviceObj])
 
     useEffect(() => {
             const treeList = []
@@ -173,7 +173,7 @@ function S(props) {
                 setOsObj(req.data.os)
                 setMobileObj(req.data.mobile)
                 setBrowserObj(req.data.browser)
-                setDeviceObj(req.data.device)
+                // setDeviceObj(req.data.device)
                 // setLoading(false)
             }
         }).catch(() => {

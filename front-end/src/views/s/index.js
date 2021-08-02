@@ -240,18 +240,18 @@ function S(props) {
                         </TreeView> : <CircularProgress/>}
                     </CardContent>
                 </Card>
-                <Card style={{margin: "4px"}}>
-                    <CardHeader title="Device"/>
-                    <CardContent>
-                        {!deviceLoad ? <TreeView
-                            defaultCollapseIcon={<ExpandMoreIcon/>}
-                            defaultExpandIcon={<ChevronRightIcon/>}
-                            multiSelect
-                        >
-                            {deviceList}
-                        </TreeView> : <CircularProgress/>}
-                    </CardContent>
-                </Card>
+                {/*<Card style={{margin: "4px"}}>*/}
+                {/*    <CardHeader title="Device"/>*/}
+                {/*    <CardContent>*/}
+                {/*        {!deviceLoad ? <TreeView*/}
+                {/*            defaultCollapseIcon={<ExpandMoreIcon/>}*/}
+                {/*            defaultExpandIcon={<ChevronRightIcon/>}*/}
+                {/*            multiSelect*/}
+                {/*        >*/}
+                {/*            {deviceList}*/}
+                {/*        </TreeView> : <CircularProgress/>}*/}
+                {/*    </CardContent>*/}
+                {/*</Card>*/}
                 <Card style={{margin: "4px"}}>
                     <CardHeader title="Browser app"/>
                     <CardContent>

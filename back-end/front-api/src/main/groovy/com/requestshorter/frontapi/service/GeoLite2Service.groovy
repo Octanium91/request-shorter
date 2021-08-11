@@ -33,7 +33,7 @@ class GeoLite2Service {
         }
     }
 
-    private static void untar(String tarFile, File dest) throws IOException {
+    private static void unTar(String tarFile, File dest) throws IOException {
 
         dest.mkdir();
 
@@ -103,7 +103,7 @@ class GeoLite2Service {
         Files.write(disFile.toPath(), file)
         String disFileSha256 = disFile.getBytes().digest('SHA-256')
         if (sha256 == disFileSha256) {
-            untar("${maxmindFolder}/geoip/${editionId}/${sha256}/dis.tar.gz", dbFolder)
+            unTar("${maxmindFolder}/geoip/${editionId}/${sha256}/dis.tar.gz", dbFolder)
             disFile.delete()
             File dbFile = new File("${maxmindFolder}/geoip/${editionId}/${sha256}/${editionId}.mmdb")
             if (dbFile.exists()) {

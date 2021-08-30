@@ -1,7 +1,7 @@
 package com.requestshorter.frontapi.controller
 
 import com.requestshorter.frontapi.data.domains.ShortContent
-import com.requestshorter.frontapi.model.statistic.StatisticData
+import com.requestshorter.frontapi.model.statistic.ServiceStatisticResponseDto
 import com.requestshorter.frontapi.model.statistic.StatisticResponseDto
 import com.requestshorter.frontapi.service.ClientRequestService
 import com.requestshorter.frontapi.service.ShortContentService
@@ -19,6 +19,15 @@ class StatisticController {
 
     @Autowired ShortContentService shortContentService
     @Autowired ClientRequestService clientRequestService
+
+    @GetMapping("/api/service/statistic")
+    ServiceStatisticResponseDto getServiceStatistic() {
+        new ServiceStatisticResponseDto(
+                totalLinksCreated: shortContentService.getEntityCount(),
+                preDayLinksCreated: shortContentService.getEntityCountPreDay(),
+                preDayLinksExecuted: clientRequestService.getEntityPreDay()
+        )
+    }
 
     @GetMapping("/api/click/statistic")
     StatisticResponseDto getStatistic(@RequestParam String code) {

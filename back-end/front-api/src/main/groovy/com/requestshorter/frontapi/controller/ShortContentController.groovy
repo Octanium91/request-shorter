@@ -28,11 +28,6 @@ class ShortContentController {
         shortContentService.createLink(shortContentCreateDto.link)
     }
 
-    @GetMapping("/api/shortContent/geo")
-    void geo() {
-        geoLite2Service.update()
-    }
-
     @GetMapping("/api/shortContent/statistic/count")
     int getStatisticCount(@RequestParam String code) {
         ShortContent shortContent = shortContentService.getByCode(code)

@@ -23,6 +23,14 @@ class ShortContentService {
         }
     }
 
+    Long getEntityCount() {
+        shortContentRepository.count()
+    }
+
+    Long getEntityCountPreDay() {
+        shortContentRepository.countByCreateDateGreaterThan(new Date(new Date().time - 86400000))
+    }
+
     String getNewCode() {
         int codeLength = 2
         Page page = shortContentRepository.findAll(PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC,"createDate")))

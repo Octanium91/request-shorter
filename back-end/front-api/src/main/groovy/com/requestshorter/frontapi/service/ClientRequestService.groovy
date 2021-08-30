@@ -5,7 +5,6 @@ import com.axlabs.ip2asn2cc.model.FilterPolicy
 import com.maxmind.geoip2.DatabaseReader
 import com.maxmind.geoip2.model.AsnResponse
 import com.maxmind.geoip2.model.CityResponse
-import com.maxmind.geoip2.model.CountryResponse
 import com.maxmind.geoip2.record.City
 import com.maxmind.geoip2.record.Country
 import com.requestshorter.frontapi.data.domains.ClientRequest
@@ -50,6 +49,10 @@ class ClientRequestService {
             "TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI",
             "VN","VU","WF","WS","YE","YT","ZA","ZM","ZW"
     ]
+
+    Long getEntityPreDay() {
+        clientRequestRepository.countByCreateDateGreaterThan(new Date(new Date().time - 86400000))
+    }
 
     void create(HttpServletRequest request, ShortContent shortContent) {
         String ipAddress = request.getHeader("X-Forwarded-For")

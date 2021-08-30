@@ -9,4 +9,6 @@ interface ShortContentRepository extends MongoRepository<ShortContent, String> {
 
     Optional<ShortContent> findByCode(String name)
 
+    Long countByCreateDateGreaterThan(Date date)
+
 }

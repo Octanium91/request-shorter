@@ -14,4 +14,8 @@ apiService.clickStatistic = (code) => {
     return axios.get(`/api/click/statistic`, { params: { code } })
 }
 
+apiService.serviceStatistic = () => {
+    return axios.get(`/api/service/statistic`)
+}
+
 export default apiService

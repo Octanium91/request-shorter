@@ -13,4 +13,6 @@ interface ClientRequestRepository extends MongoRepository<ClientRequest, String>
 
     Long countByShortContentId(String shortContentId)
 
+    Long countByCreateDateGreaterThan(Date date)
+
 }

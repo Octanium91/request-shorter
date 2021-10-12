@@ -61,6 +61,8 @@ server {
         proxy_http_version 1.1;
 
         # kill cache
+        proxy_hide_header Last-Modified;
+        proxy_hide_header Cache-Control;
         add_header Last-Modified $date_gmt;
         add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
         if_modified_since off;
@@ -80,6 +82,15 @@ server {
         proxy_set_header   Host $host;
         proxy_http_version 1.1;
 
+        # kill cache
+        proxy_hide_header Last-Modified;
+        proxy_hide_header Cache-Control;
+        add_header Last-Modified $date_gmt;
+        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+        if_modified_since off;
+        expires off;
+        etag off;
+
         proxy_set_header X-User-Agent $http_user_agent;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -90,6 +101,15 @@ server {
     location /api {
         proxy_set_header   Host $host;
         proxy_http_version 1.1;
+
+        # kill cache
+        proxy_hide_header Last-Modified;
+        proxy_hide_header Cache-Control;
+        add_header Last-Modified $date_gmt;
+        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+        if_modified_since off;
+        expires off;
+        etag off;
 
         proxy_set_header X-User-Agent $http_user_agent;
         proxy_set_header X-Real-IP $remote_addr;

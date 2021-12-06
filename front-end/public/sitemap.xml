@@ -2,25 +2,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-<url> <loc>https://slink.sbs/</loc></url>
-<url> <loc>https://slink.sbs/ru/</loc> </url>
-<url> <loc>https://slink.sbs/en/</loc> </url>
-<url> <loc>https://slink.sbs/ru/england/</loc> </url>
-<url> <loc>https://slink.sbs/ru/germany/</loc> </url>
-<url> <loc>https://slink.sbs/ru/europe</loc> </url>
-<url> <loc>https://slink.sbs/ru/spain</loc> </url>
-<url> <loc>https://slink.sbs/ru/russia</loc> </url>
-<url> <loc>https://slink.sbs/ru/usa</loc> </url>
-<url> <loc>https://slink.sbs/ru/ukraine</loc> </url>
-<url> <loc>https://slink.sbs/ru/france</loc> </url>
-<url> <loc>https://slink.sbs/en/england</loc> </url>
-<url> <loc>https://slink.sbs/en/germany</loc> </url>
-<url> <loc>https://slink.sbs/en/europe</loc> </url>
-<url> <loc>https://slink.sbs/en/spain</loc> </url>
-<url> <loc>https://slink.sbs/en/russia</loc> </url>
-<url> <loc>https://slink.sbs/en/usa</loc> </url>
-<url> <loc>https://slink.sbs/en/ukraine</loc> </url>
-<url> <loc>https://slink.sbs/en/france</loc> </url>
-<url> <loc>https://slink.sbs/ru/cabinet</loc> </url>
-<url> <loc>https://slink.sbs/en/cabinet</loc> </url>
+    <url>
+        <loc>https://slink.sbs/</loc>
+    </url>
+    <url>
+        <loc>https://slink.sbs/openAPI/</loc>
+    </url>
 </urlset>

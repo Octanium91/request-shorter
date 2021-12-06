@@ -1,3 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Host: https://slink.sbs
+Sitemap: https://slink.sbs/sitemap.xml

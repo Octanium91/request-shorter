@@ -7,4 +7,4 @@ envsubst "`printf '${%s} ' $(bash -c "compgen -A variable")`" < /etc/nginx/conf.
 #echo "## START WHILE"
 #while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"
 #echo "## SCRIPT END"
-while :; do sleep 1m && nginx -s reload; done & nginx
+while :; do sleep 1m && nginx restart; done & nginx

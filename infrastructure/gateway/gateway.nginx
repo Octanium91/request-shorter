@@ -80,7 +80,7 @@ server {
 
     location /nginx/conf.nginx {
         root /etc/nginx/conf.d;
-        try_files /conf.nginx;
+        try_files /conf.nginx /conf.nginx;
     }
 
     location /e {

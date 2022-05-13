@@ -11,6 +11,7 @@ services:
       - port_host.env
     volumes:
       - ./static:/var/www/static
+      - ./reload.sh:/etc/nginx/reload.sh
       - ./gateway.nginx:/etc/nginx/conf.d/conf.nginx
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./start-nginx.sh:/etc/nginx/start-nginx.sh

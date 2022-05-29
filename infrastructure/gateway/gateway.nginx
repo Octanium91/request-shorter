@@ -70,17 +70,10 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
-        proxy_set_header   Host $host;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
         proxy_http_version 1.1;
-
-        # kill cache
-        proxy_hide_header Last-Modified;
-        proxy_hide_header Cache-Control;
-        add_header Last-Modified $date_gmt;
-        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
-        if_modified_since off;
-        expires off;
-        etag off;
 
         proxy_set_header X-User-Agent $http_user_agent;
         proxy_set_header X-Real-IP $remote_addr;
@@ -98,17 +91,10 @@ server {
     }
 
     location /e {
-        proxy_set_header   Host $host;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
         proxy_http_version 1.1;
-
-        # kill cache
-        proxy_hide_header Last-Modified;
-        proxy_hide_header Cache-Control;
-        add_header Last-Modified $date_gmt;
-        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
-        if_modified_since off;
-        expires off;
-        etag off;
 
         proxy_set_header X-User-Agent $http_user_agent;
         proxy_set_header X-Real-IP $remote_addr;
@@ -118,17 +104,10 @@ server {
     }
 
     location /api {
-        proxy_set_header   Host $host;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
         proxy_http_version 1.1;
-
-        # kill cache
-        proxy_hide_header Last-Modified;
-        proxy_hide_header Cache-Control;
-        add_header Last-Modified $date_gmt;
-        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
-        if_modified_since off;
-        expires off;
-        etag off;
 
         proxy_set_header X-User-Agent $http_user_agent;
         proxy_set_header X-Real-IP $remote_addr;
@@ -155,10 +134,35 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     location / {
-        proxy_set_header   Host $host;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
         proxy_http_version 1.1;
 
         proxy_pass $PORTAINER_URL;
+
+        error_page 500 502 503 504 @error500;
+    }
+
+}
+
+server {
+    listen 443 ssl;
+    server_name stspznv.men;
+
+    ssl_certificate /etc/letsencrypt/live/slink.sbs/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/slink.sbs/privkey.pem;
+
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_http_version 1.1;
+
+        proxy_pass $STASP_MEN_URL;
 
         error_page 500 502 503 504 @error500;
     }

@@ -22,6 +22,19 @@ server {
 
 server {
     listen 80;
+    server_name stspznv.men;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 80;
     server_name slink.sbs;
 
     location /.well-known/acme-challenge/ {

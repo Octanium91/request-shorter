@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.1'
+	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'groovy'
 }
@@ -11,7 +11,7 @@ allprojects {
 	apply plugin: 'io.spring.dependency-management'
 
 	group = 'com.request-shorter'
-	sourceCompatibility = '11'
+	sourceCompatibility = '17'
 	buildDir = '../build'
 
 	configurations {

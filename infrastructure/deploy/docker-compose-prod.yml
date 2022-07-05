@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   mongodb:
-    image: mongo:4.4.5
+    image: mongo:4.4
     restart: unless-stopped
     env_file:
       - ../../config/prod_mongo.env
@@ -19,7 +19,7 @@ services:
         max-size: 256m
 
   entityservice:
-    image: openjdk:11
+    image: amazoncorretto:17.0.3-alpine
     depends_on:
       - mongodb
     env_file:
@@ -45,7 +45,7 @@ services:
         max-size: 256m
 
   frontapiservice:
-    image: openjdk:11
+    image: amazoncorretto:17.0.3-alpine
     depends_on:
       - mongodb
     env_file:
@@ -71,7 +71,7 @@ services:
         max-size: 256m
 
   schedulerservice:
-    image: openjdk:11
+    image: amazoncorretto:17.0.3-alpine
     depends_on:
       - mongodb
     env_file:

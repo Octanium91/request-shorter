@@ -5,6 +5,6 @@
 ## Technologies used:
 * Java 17 (Groovy)
 * Java-script (ReactJS)
-* MongoDB (4.4)
+* MongoDB (6.0.4)
 * Docker (docker-compose)
 * GitHub Action (CI)

@@ -22,6 +22,7 @@ class ClientRequest {
     @Indexed(background = true, direction = IndexDirection.DESCENDING)
     Date lastModifiedDate
 
+    @Indexed(background = true)
     String shortContentId
 
     String ipAddress

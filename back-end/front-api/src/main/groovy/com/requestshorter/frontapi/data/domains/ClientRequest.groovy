@@ -29,6 +29,7 @@ class ClientRequest {
 
     String userAgent
 
+    @Indexed(background = true)
     boolean loadStatistic = true
 
     String country = "unknown"

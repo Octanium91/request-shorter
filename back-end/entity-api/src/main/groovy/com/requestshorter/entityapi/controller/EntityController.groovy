@@ -29,7 +29,7 @@ class EntityController {
         ShortContent entity = entityService.getEntity(shortCode)
         if (entity) {
             if (entity.type == ShortContentType.LINK) {
-                clientRequestService.create(request, entity)
+                clientRequestService.createAsync(request, entity)
                 new RedirectView(entity.link)
             }
         } else {

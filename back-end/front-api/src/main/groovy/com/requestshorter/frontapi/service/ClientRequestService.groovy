@@ -15,6 +15,7 @@ import com.requestshorter.frontapi.model.clientRequest.ClientRequestUserAgentInf
 import com.requestshorter.frontapi.model.geoIP2.GeoIP2Response
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import com.requestshorter.frontapi.Utils.UAgentInfo
 
@@ -52,6 +53,11 @@ class ClientRequestService {
 
     Long getEntityPreDay() {
         clientRequestRepository.countByCreateDateGreaterThan(new Date(new Date().time - 86400000))
+    }
+
+    @Async
+    void createAsync(HttpServletRequest request, ShortContent shortContent) {
+        create(request, shortContent)
     }
 
     void create(HttpServletRequest request, ShortContent shortContent) {

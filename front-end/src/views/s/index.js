@@ -163,7 +163,9 @@ function S(props) {
             if (error.response.status === 404) {
                 props.history.push(`/404/${code}`)
             } else {
-                setServiceUpdating(true)
+                if (error.response.status === 502) {
+                    setServiceUpdating(true)
+                }
             }
         })
         apiService.clickStatistic(code).then((req) => {

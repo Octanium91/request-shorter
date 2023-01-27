@@ -56,32 +56,14 @@ class ClientRequestService {
     }
 
     @Async
-    void createAsync(HttpServletRequest request, ShortContent shortContent) {
-        create(request, shortContent)
+    void createAsync(String ip = "", String userAgent = "", ShortContent shortContent) {
+        create(ip, userAgent, shortContent)
     }
 
-    void create(HttpServletRequest request, ShortContent shortContent) {
-        String ipAddress = request.getHeader("X-Forwarded-For")
-        if (!ipAddress) {
-            ipAddress = request.getHeader("X-Real-IP")
-        }
-        if (!ipAddress) {
-            ipAddress = request.getRemoteAddr()
-        }
-        if (ipAddress) {
-            try {
-                ipAddress = ipAddress.split()[0].replace(",","")
-            } catch(e) {
-
-            }
-        }
-        String userAgent = request.getHeader( "X-User-Agent")
-        if (!userAgent) {
-            userAgent = request.getHeader( "User-Agent")
-        }
+    void create(String ip = "", String userAgent = "", ShortContent shortContent) {
         clientRequestRepository.save(new ClientRequest(
                 shortContentId: shortContent.id,
-                ipAddress: ipAddress,
+                ipAddress: ip,
                 userAgent: userAgent
         ))
     }

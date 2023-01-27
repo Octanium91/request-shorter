@@ -1,6 +1,7 @@
 package com.requestshorter.entityapi.controller
 
 import com.requestshorter.entityapi.service.EntityService
+import com.requestshorter.entityapi.service.RequestServletService
 import com.requestshorter.frontapi.data.domains.ShortContent
 import com.requestshorter.frontapi.model.shortContent.ShortContentType
 import com.requestshorter.frontapi.service.ClientRequestService
@@ -29,7 +30,7 @@ class EntityController {
         ShortContent entity = entityService.getEntity(shortCode)
         if (entity) {
             if (entity.type == ShortContentType.LINK) {
-                clientRequestService.createAsync(request, entity)
+                clientRequestService.createAsync(RequestServletService.getIP(request), RequestServletService.getUserAgent(request), entity)
                 new RedirectView(entity.link)
             }
         } else {

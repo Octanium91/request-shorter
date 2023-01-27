@@ -37,7 +37,7 @@ class OpenAPIController {
         ShortContent entity = shortContentService.getByCode(shortCode)
         if (entity) {
             if (entity.type == ShortContentType.LINK) {
-                clientRequestService.create(request, entity)
+                clientRequestService.createAsync(RequestServletService.getIP(request), RequestServletService.getUserAgent(request), entity)
                 new RedirectView(entity.link)
             }
         } else {

@@ -55,9 +55,7 @@ class SchedulerLoadStatisticService {
             it.operatingSystem = userAgentInfo.os
             it.browser = userAgentInfo.browser
             it.loadStatistic = false
-            if (countryCode) {
-                clientRequestService.save(it)
-            }
+            clientRequestService.save(it)
         })
     }
 

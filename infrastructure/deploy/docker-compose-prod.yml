@@ -19,7 +19,7 @@ services:
         max-size: 256m
 
   entityservice:
-    image: amazoncorretto:17.0.3-alpine
+    image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
     env_file:
@@ -45,7 +45,7 @@ services:
         max-size: 256m
 
   frontapiservice:
-    image: amazoncorretto:17.0.3-alpine
+    image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
     env_file:
@@ -71,7 +71,7 @@ services:
         max-size: 256m
 
   schedulerservice:
-    image: amazoncorretto:17.0.3-alpine
+    image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
     env_file:
@@ -95,7 +95,7 @@ services:
         max-size: 256m
 
   frontservice:
-    image: nginx:1.19.6
+    image: nginx:1.23.3-alpine
     depends_on:
       - frontapiservice
     restart: unless-stopped

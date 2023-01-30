@@ -188,7 +188,7 @@ jobs:
       - name: Docker down
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: docker-compose -f /root/f/slink/${{env.MODE}}/$(cat /root/f/slink/${{env.MODE}}/current_version)/docker-compose.yml down || true
+          command: docker compose -f /root/f/slink/${{env.MODE}}/$(cat /root/f/slink/${{env.MODE}}/current_version)/docker-compose.yml down || true
           host: ${{ secrets.DEPLOY_HOST }}
           port: ${{ secrets.DEPLOY_PORT }}
           username: ${{ secrets.DEPLOY_USER }}
@@ -206,7 +206,7 @@ jobs:
       - name: Docker start
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: docker-compose -f /root/f/slink/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/docker-compose.yml up -d
+          command: docker compose -f /root/f/slink/${{env.MODE}}/${{env.MODE}}_${{ github.run_number }}/docker-compose.yml up -d
           host: ${{ secrets.DEPLOY_HOST }}
           port: ${{ secrets.DEPLOY_PORT }}
           username: ${{ secrets.DEPLOY_USER }}

@@ -63,7 +63,7 @@ services:
       geoLiteCityDataBase: //gjava//GeoLite2//GeoLite2-City//GeoLite2-City.mmdb
     command: /bin/sh -c "cd /gjava && chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
     ports:
-      - "127.0.0.1:1102:8666"
+      - "1102:8666"
     logging:
       driver: "json-file"
       options:

@@ -15,7 +15,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        tag: "{{.ImageName}}|{{.Name}}"
+        tag: "slink-mongodb"
         max-size: 256m
 
   entityservice:
@@ -41,7 +41,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        tag: "{{.ImageName}}|{{.Name}}"
+        tag: "slink-entry-service"
         max-size: 256m
 
   frontapiservice:
@@ -67,7 +67,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        tag: "{{.ImageName}}|{{.Name}}"
+        tag: "slink-api-service"
         max-size: 256m
 
   schedulerservice:
@@ -91,7 +91,7 @@ services:
     logging:
       driver: "json-file"
       options:
-        tag: "{{.ImageName}}|{{.Name}}"
+        tag: "slink-scheduler-service"
         max-size: 256m
 
   frontservice:
@@ -110,5 +110,5 @@ services:
     logging:
       driver: "json-file"
       options:
-        tag: "{{.ImageName}}|{{.Name}}"
+        tag: "slink-front-service"
         max-size: 256m

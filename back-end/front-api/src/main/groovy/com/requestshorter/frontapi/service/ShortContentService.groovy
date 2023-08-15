@@ -5,6 +5,8 @@ import com.requestshorter.frontapi.data.repository.ShortContentRepository
 import com.requestshorter.frontapi.model.shortContent.ShortContentType
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.CacheManager
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service
 class ShortContentService {
 
     @Autowired private ShortContentRepository shortContentRepository
+    @Autowired private CacheManager cacheManager
 
     static String generateCode(int symbols) {
         String alphabet = (('A'..'N') + ('P'..'Z') + ('a'..'k') + ('m'..'z') + ('2'..'9')).join()
@@ -64,6 +67,7 @@ class ShortContentService {
                         link: link,
                         code: getNewCode()
                 ))
+                cacheManager.getCache("short-content").put(shortContent.code, shortContent)
                 write = false
             } catch(e) {
                 log.warn("Short content is not created!")
@@ -73,6 +77,7 @@ class ShortContentService {
         shortContent.code
     }
 
+    @Cacheable(cacheNames = "short-content", key = "#code", unless = "#result == null")
     ShortContent getByCode(String code) {
         shortContentRepository.findByCode(code).orElse(null)
     }

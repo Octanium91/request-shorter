@@ -15,6 +15,8 @@ import com.requestshorter.frontapi.model.clientRequest.ClientRequestUserAgentInf
 import com.requestshorter.frontapi.model.geoIP2.GeoIP2Response
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.CacheManager
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import com.requestshorter.frontapi.Utils.UAgentInfo
@@ -30,6 +32,7 @@ class ClientRequestService {
 
     @Autowired ClientRequestRepository clientRequestRepository
     @Autowired GeoLite2Service geoLite2Service
+    @Autowired CacheManager cacheManager
 
     private List<String> listAlpha2CountryCode = [
             "AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX",
@@ -61,19 +64,23 @@ class ClientRequestService {
     }
 
     void create(String ip = "", String userAgent = "", ShortContent shortContent) {
-        clientRequestRepository.save(new ClientRequest(
+        ClientRequest cr = clientRequestRepository.save(new ClientRequest(
                 shortContentId: shortContent.id,
                 ipAddress: ip,
                 userAgent: userAgent
         ))
+        cacheManager.getCache("short-content-count").evictIfPresent(cr?.shortContentId)
+        cacheManager.getCache("short-content-all").evictIfPresent(cr?.shortContentId)
     }
 
-    int getCountByShortContent(String ShortContentId) {
-        clientRequestRepository.countByShortContentId(ShortContentId)
+    @Cacheable(cacheNames = "short-content-count", key = "#shortContentId")
+    int getCountByShortContent(String shortContentId) {
+        clientRequestRepository.countByShortContentId(shortContentId)
     }
 
-    List<ClientRequest> getAllByShortContent(String ShortContentId) {
-        clientRequestRepository.findAllByShortContentId(ShortContentId)
+    @Cacheable(cacheNames = "short-content-all", key = "#shortContentId")
+    List<ClientRequest> getAllByShortContent(String shortContentId) {
+        clientRequestRepository.findAllByShortContentId(shortContentId)
     }
 
     List<ClientRequest> getAllForLoadStatistic() {

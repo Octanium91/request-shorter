@@ -18,12 +18,29 @@ services:
         tag: "slink-mongodb"
         max-size: 256m
 
+  redis:
+    image: redis:7.0.11-alpine3.17
+    restart: unless-stopped
+    env_file:
+      - ../../config/stage_redis.env
+    volumes:
+      - ../redis/data:/data
+    ports:
+      - "1901:6379"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "stage_redis"
+        max-size: 256m
+
   entityservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
+      - redis
     env_file:
       - ../../config/prod_mongo_auth.env
+      - ../../config/prod_redis_auth.env
     restart: unless-stopped
     volumes:
       - ./java/entity-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
@@ -48,8 +65,10 @@ services:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
+      - redis
     env_file:
       - ../../config/prod_mongo_auth.env
+      - ../../config/prod_redis_auth.env
     restart: unless-stopped
     volumes:
        - ./java/front-api-0.0.1-SNAPSHOT.jar:/gjava/java.jar
@@ -74,8 +93,10 @@ services:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
+      - redis
     env_file:
       - ../../config/prod_mongo_auth.env
+      - ../../config/prod_redis_auth.env
     restart: unless-stopped
     volumes:
       - ./java/scheduler-0.0.1-SNAPSHOT.jar:/gjava/java.jar

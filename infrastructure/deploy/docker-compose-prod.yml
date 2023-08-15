@@ -26,11 +26,11 @@ services:
     volumes:
       - ../redis/data:/data
     ports:
-      - "1901:6379"
+      - "1104:6379"
     logging:
       driver: "json-file"
       options:
-        tag: "stage_redis"
+        tag: "slink_redis"
         max-size: 256m
 
   entityservice:

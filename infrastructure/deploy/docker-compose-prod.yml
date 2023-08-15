@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   mongodb:
-    image: mongo:6.0.4
+    image: mongo:6.0.9
     restart: unless-stopped
     env_file:
       - ../../config/prod_mongo.env
@@ -19,10 +19,10 @@ services:
         max-size: 256m
 
   redis:
-    image: redis:7.0.11-alpine3.17
+    image: redis:7.0.12-alpine3.18
     restart: unless-stopped
     env_file:
-      - ../../config/stage_redis.env
+      - ../../config/prod_redis.env
     volumes:
       - ../redis/data:/data
     ports:

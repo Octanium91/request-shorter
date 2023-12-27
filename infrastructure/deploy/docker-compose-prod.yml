@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
 
-  mongodb:
+  prod_mongodb:
     image: mongo:6.0.8
     restart: unless-stopped
     env_file:
@@ -10,34 +10,30 @@ services:
     volumes:
       - ../mongodb/data:/data/db
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
-    ports:
-      - "1201:27017"
     logging:
       driver: "json-file"
       options:
-        tag: "slink-mongodb"
+        tag: "prod-slink-mongodb"
         max-size: 256m
 
-  redis:
+  prod_redis:
     image: redis:7.0.12-alpine3.18
     restart: unless-stopped
     env_file:
       - ../../config/prod_redis.env
     volumes:
       - ../redis/data:/data
-    ports:
-      - "1104:6379"
     logging:
       driver: "json-file"
       options:
-        tag: "slink_redis"
+        tag: "prod-slink-redis"
         max-size: 256m
 
   prod_entityservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
-      - mongodb
-      - redis
+      - prod_mongodb
+      - prod_redis
     env_file:
       - ../../config/prod_mongo_auth.env
       - ../../config/prod_redis_auth.env
@@ -54,19 +50,17 @@ services:
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
       geoLiteCityDataBase: //gjava//GeoLite2//GeoLite2-City//GeoLite2-City.mmdb
     command: /bin/sh -c "cd /gjava && chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
-    ports:
-      - "127.0.0.1:1103:8667"
     logging:
       driver: "json-file"
       options:
-        tag: "slink-entry-service"
+        tag: "prod-slink-entry-service"
         max-size: 256m
 
   prod_frontapiservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
-      - mongodb
-      - redis
+      - prod_mongodb
+      - prod_redis
     env_file:
       - ../../config/prod_mongo_auth.env
       - ../../config/prod_redis_auth.env
@@ -83,19 +77,17 @@ services:
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
       geoLiteCityDataBase: //gjava//GeoLite2//GeoLite2-City//GeoLite2-City.mmdb
     command: /bin/sh -c "cd /gjava && chmod +x /gjava/*.jar && java -jar /gjava/java.jar"
-    ports:
-      - "1102:8666"
     logging:
       driver: "json-file"
       options:
-        tag: "slink-api-service"
+        tag: "prod-slink-api-service"
         max-size: 256m
 
   prod_schedulerservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
-      - mongodb
-      - redis
+      - prod_mongodb
+      - prod_redis
     env_file:
       - ../../config/prod_mongo_auth.env
       - ../../config/prod_redis_auth.env
@@ -115,13 +107,13 @@ services:
     logging:
       driver: "json-file"
       options:
-        tag: "slink-scheduler-service"
+        tag: "prod-slink-scheduler-service"
         max-size: 256m
 
   prod_frontservice:
     image: nginx:1.23.3-alpine
     depends_on:
-      - frontapiservice
+      - prod_frontapiservice
     restart: unless-stopped
     volumes:
       - ./front:/usr/share/nginx/html
@@ -129,12 +121,10 @@ services:
       - ./gateway/nginx.front.conf:/etc/nginx/nginx.conf
     environment:
       REACT_APP_APP_URL: https://slink.sbs
-    ports:
-      - "127.0.0.1:1101:80"
     logging:
       driver: "json-file"
       options:
-        tag: "slink-front-service"
+        tag: "prod-slink-front-service"
         max-size: 256m
 
 networks:

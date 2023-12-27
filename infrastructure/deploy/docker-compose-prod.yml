@@ -33,7 +33,7 @@ services:
         tag: "slink_redis"
         max-size: 256m
 
-  entityservice:
+  prod_entityservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
@@ -62,7 +62,7 @@ services:
         tag: "slink-entry-service"
         max-size: 256m
 
-  frontapiservice:
+  prod_frontapiservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
@@ -91,7 +91,7 @@ services:
         tag: "slink-api-service"
         max-size: 256m
 
-  schedulerservice:
+  prod_schedulerservice:
     image: amazoncorretto:17.0.6-alpine
     depends_on:
       - mongodb
@@ -118,7 +118,7 @@ services:
         tag: "slink-scheduler-service"
         max-size: 256m
 
-  frontservice:
+  prod_frontservice:
     image: nginx:1.23.3-alpine
     depends_on:
       - frontapiservice
@@ -136,3 +136,8 @@ services:
       options:
         tag: "slink-front-service"
         max-size: 256m
+
+networks:
+  default:
+    external: true
+    name: nginx-public

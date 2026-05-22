@@ -1,6 +1,6 @@
 # request-shorter
 
-[slink.sbs](https://slink.sbs/) - it's simple link shortener web application
+[slink.earth](https://slink.earth/) - it's simple link shortener web application
 
 ## Technologies used:
 * Java 17 (Groovy)

@@ -3,9 +3,9 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
     <url>
-        <loc>https://slink.sbs/</loc>
+        <loc>https://slink.earth/</loc>
     </url>
     <url>
-        <loc>https://slink.sbs/openAPI/</loc>
+        <loc>https://slink.earth/openAPI/</loc>
     </url>
 </urlset>

@@ -46,7 +46,7 @@ services:
       - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
-      baseHost: https://slink.sbs
+      baseHost: https://slink.earth
       spring_data_mongodb_host: prod_mongodb
       spring_redis_host: prod_redis
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
@@ -73,7 +73,7 @@ services:
        - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
-      baseHost: https://slink.sbs
+      baseHost: https://slink.earth
       spring_data_mongodb_host: prod_mongodb
       spring_redis_host: prod_redis
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
@@ -100,7 +100,7 @@ services:
       - ./GeoLite2:/gjava/GeoLite2
     environment:
       appMode: prod
-      baseHost: https://slink.sbs
+      baseHost: https://slink.earth
       spring_data_mongodb_host: prod_mongodb
       spring_redis_host: prod_redis
       geoLiteCountryDataBase: //gjava//GeoLite2//GeoLite2-Country//GeoLite2-Country.mmdb
@@ -122,7 +122,7 @@ services:
       - ../files:/usr/share/nginx/html/files
       - ./gateway/nginx.front.conf:/etc/nginx/nginx.conf
     environment:
-      REACT_APP_APP_URL: https://slink.sbs
+      REACT_APP_APP_URL: https://slink.earth
     logging:
       driver: "json-file"
       options:
